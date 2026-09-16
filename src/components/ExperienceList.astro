@@ -1,0 +1,98 @@
+---
+import type { ExperienceEntry } from "../data/site";
+
+interface Props {
+  entries: ExperienceEntry[];
+  bordered?: "top" | "between";
+}
+
+const { entries, bordered = "between" } = Astro.props;
+---
+
+<div class={`experience-list border-${bordered}`}>
+  {
+    entries.map((e) => (
+      <div class="experience-row">
+        <div class="period">{e.period}</div>
+        <div>
+          <div class="role-line">
+            <span class="role">{e.role}</span>
+            <span class="company">{e.company}</span>
+          </div>
+          <p class="detail">{e.detail}</p>
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .experience-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .experience-row {
+    display: grid;
+    grid-template-columns: 132px 1fr;
+    gap: 28px;
+    padding: 22px 0;
+  }
+
+  .border-between .experience-row {
+    border-top: 1px solid var(--border);
+  }
+  .border-between .experience-row:first-child {
+    border-top: none;
+  }
+
+  .border-top .experience-row {
+    border-bottom: 1px solid var(--border);
+  }
+  .border-top .experience-row:last-child {
+    border-bottom: none;
+  }
+
+  .period {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    color: var(--text-meta);
+    padding-top: 4px;
+    letter-spacing: 0.02em;
+  }
+
+  .role-line {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .role {
+    font-size: 17.5px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.012em;
+  }
+
+  .company {
+    font-size: 14.5px;
+    color: var(--accent);
+  }
+
+  .detail {
+    margin: 8px 0 0;
+    font-size: 14.5px;
+    line-height: 1.62;
+    color: var(--text-muted);
+    max-width: min(66ch, 100%);
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 767px) {
+    .experience-row {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+  }
+</style>

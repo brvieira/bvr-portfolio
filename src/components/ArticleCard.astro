@@ -1,0 +1,126 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { formatDateLong } from "../utils/format-date";
+import { blogCategories } from "../data/site";
+
+interface Props {
+  entry: CollectionEntry<"blog">;
+  readingTime: number;
+  variant?: "home" | "listing";
+}
+
+const { entry, readingTime, variant = "home" } = Astro.props;
+const { titulo, categoria, data, resumo } = entry.data;
+const categoryLabel = blogCategories.find((c) => c.slug === categoria)?.label ?? categoria;
+const meta = `${formatDateLong(data)} · ${readingTime} min`;
+const href = `/blog/${entry.id}/`;
+---
+
+<div class={`article-card variant-${variant}`}>
+  {
+    variant === "listing" && (
+      <div class="top-row">
+        <span class="category-accent">{categoryLabel}</span>
+        <span class="sep" aria-hidden="true" />
+        <span class="meta-text">{meta}</span>
+      </div>
+    )
+  }
+  {variant === "home" && <span class="category-muted">{categoryLabel}</span>}
+  <h3 class="card-title">
+    <a href={href} class="stretched-link">{titulo}</a>
+  </h3>
+  <p class="excerpt">{resumo}</p>
+  {variant === "home" && <div class="footer-meta">{meta}</div>}
+  {variant === "listing" && <div class="footer-cta">Ler artigo →</div>}
+</div>
+
+<style>
+  .article-card {
+    position: relative;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-color 150ms ease-out;
+  }
+  .article-card:hover {
+    border-color: var(--border-hover);
+  }
+
+  .variant-home {
+    padding: 22px;
+    gap: 12px;
+  }
+  .variant-listing {
+    padding: 26px;
+    gap: 13px;
+  }
+
+  .stretched-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  .category-muted {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--text-meta);
+  }
+
+  .top-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .category-accent {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .sep {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--border-hover);
+  }
+
+  .meta-text {
+    font-size: 12.5px;
+    color: var(--text-meta);
+  }
+
+  .excerpt {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    text-wrap: pretty;
+  }
+  .variant-listing .excerpt {
+    font-size: 15px;
+    line-height: 1.62;
+  }
+
+  .footer-meta {
+    margin-top: auto;
+    padding-top: 8px;
+    font-size: 12.5px;
+    color: var(--text-meta);
+  }
+
+  .footer-cta {
+    margin-top: auto;
+    padding-top: 8px;
+    font-size: 13.5px;
+    color: var(--accent);
+  }
+</style>

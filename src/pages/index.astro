@@ -1,0 +1,145 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import ExperienceList from "../components/ExperienceList.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import ArticleCard from "../components/ArticleCard.astro";
+import CodeBlock from "../components/CodeBlock.astro";
+import { homeExperience, snippet, person } from "../data/site";
+import { getSortedProjects, getPublishedPosts, getReadingTime } from "../utils/content";
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: person.name,
+  jobTitle: person.role,
+  worksFor: { "@type": "Organization", name: person.company },
+  url: Astro.site?.toString(),
+  sameAs: [person.github, person.linkedin],
+};
+
+const projects = (await getSortedProjects()).filter((p) => p.data.destaque).slice(0, 2);
+const posts = (await getPublishedPosts()).slice(0, 3);
+const postsWithReadingTime = await Promise.all(
+  posts.map(async (post) => ({ post, readingTime: await getReadingTime(post) })),
+);
+---
+
+<BaseLayout
+  title="Bruno Vieira — Senior Solutions Architect na MongoDB"
+  description="Demos técnicas, código e artigos sobre modelagem de documentos, busca vetorial e agentes de IA sobre MongoDB Atlas."
+  ogImage="/og/home.png"
+  jsonLd={personJsonLd}
+>
+  <Hero />
+
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-label">Experiência</h2>
+      <a href="/sobre/" class="section-link">Sobre mim →</a>
+    </div>
+    <ExperienceList entries={homeExperience} bordered="top" />
+  </section>
+
+  <section class="section bordered">
+    <div class="section-head">
+      <h2 class="section-label">Projetos &amp; demos</h2>
+      <a href="/projetos/" class="section-link">Todos os projetos →</a>
+    </div>
+    <div class="project-grid">
+      {projects.map((entry) => <ProjectCard entry={entry} />)}
+    </div>
+  </section>
+
+  <section class="section bordered">
+    <div class="section-head">
+      <h2 class="section-label">Snippet do dia</h2>
+      <span class="section-note">{snippet.label}</span>
+    </div>
+    <CodeBlock filename={snippet.filename} code={snippet.code} />
+  </section>
+
+  <section class="section bordered last">
+    <div class="section-head">
+      <h2 class="section-label">Últimos artigos</h2>
+      <a href="/blog/" class="section-link">Todos os artigos →</a>
+    </div>
+    <div class="article-grid">
+      {
+        postsWithReadingTime.map(({ post, readingTime }) => (
+          <ArticleCard entry={post} readingTime={readingTime} variant="home" />
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .section {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 56px 32px 8px;
+  }
+  .section.last {
+    padding-bottom: 96px;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 26px;
+  }
+  .bordered .section-head {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+  }
+
+  .section-label {
+    margin: 0;
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-meta);
+  }
+
+  .section-link {
+    font-size: 13.5px;
+    color: var(--accent);
+  }
+
+  .section-note {
+    font-size: 13px;
+    color: var(--text-meta);
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .article-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 1023px) {
+    .project-grid,
+    .article-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .section {
+      padding: 40px 20px 8px;
+    }
+    .project-grid,
+    .article-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

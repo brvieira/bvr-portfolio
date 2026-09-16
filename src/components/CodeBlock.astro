@@ -1,0 +1,22 @@
+---
+import { Code } from "astro:components";
+import type { CodeLanguage } from "astro";
+
+interface Props {
+  filename: string;
+  code: string;
+  lang?: CodeLanguage;
+}
+
+const { filename, code, lang = "python" } = Astro.props;
+---
+
+<div class="code-block" data-code-block>
+  <div class="code-block-bar">
+    <span class="code-block-filename">{filename}</span>
+    <button type="button" class="code-block-copy" data-copy>copiar</button>
+  </div>
+  <Code code={code} lang={lang} theme="github-dark" />
+</div>
+
+<script src="../scripts/copy-code.ts"></script>

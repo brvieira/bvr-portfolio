@@ -1,0 +1,116 @@
+---
+import IconGithub from "./icons/IconGithub.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  entry: CollectionEntry<"projetos">;
+}
+
+const { entry } = Astro.props;
+const { titulo, tipo, ano, resumo, tags, repo } = entry.data;
+---
+
+<div class="project-card">
+  <div class="row-top">
+    <span class="kind">{tipo}</span>
+    <span class="year">{ano}</span>
+  </div>
+  <h3 class="card-title">
+    <a href={repo} target="_blank" rel="noopener" class="stretched-link">{titulo}</a>
+  </h3>
+  <p class="summary">{resumo}</p>
+  <div class="tags">
+    {tags.map((t) => <span class="tag">{t}</span>)}
+  </div>
+  <div class="repo-row">
+    <a href={repo} target="_blank" rel="noopener" class="repo-link">
+      <IconGithub size={14} />
+      Repositório GitHub
+    </a>
+  </div>
+</div>
+
+<style>
+  .project-card {
+    position: relative;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--surface);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: border-color 150ms ease-out;
+  }
+  .project-card:hover {
+    border-color: var(--border-hover);
+  }
+
+  .row-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .kind {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-meta);
+  }
+
+  .year {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--text-meta);
+  }
+
+  .stretched-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  .summary {
+    font-size: 14.5px;
+    line-height: 1.62;
+    color: var(--text-muted);
+    text-wrap: pretty;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 6px;
+  }
+
+  .tag {
+    padding: 4px 9px;
+    border-radius: 6px;
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-body);
+  }
+
+  .repo-row {
+    display: flex;
+    gap: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    font-size: 13.5px;
+  }
+
+  .repo-link {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent);
+  }
+</style>

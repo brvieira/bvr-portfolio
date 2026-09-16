@@ -1,0 +1,37 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Página não encontrada — Bruno Vieira" description="Esta página não existe ou foi movida.">
+  <div class="page">
+    <h1 class="page-title">Página não encontrada</h1>
+    <p class="lead">O endereço que você tentou acessar não existe ou foi movido.</p>
+    <a href="/" class="btn-primary">Voltar para o início</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 96px 32px;
+    text-align: center;
+  }
+  .page-title {
+    margin-bottom: 16px;
+  }
+  .lead {
+    font-size: 17px;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+  }
+  .btn-primary {
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 10px;
+    background: var(--accent);
+    color: #06120c;
+    font-size: 14.5px;
+    font-weight: 700;
+  }
+</style>

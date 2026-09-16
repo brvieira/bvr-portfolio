@@ -1,0 +1,252 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ExperienceList from "../../components/ExperienceList.astro";
+import IconGithub from "../../components/icons/IconGithub.astro";
+import IconLinkedin from "../../components/icons/IconLinkedin.astro";
+import IconEmail from "../../components/icons/IconEmail.astro";
+import { experience, focusAreas, person } from "../../data/site";
+
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: person.name,
+  jobTitle: person.role,
+  worksFor: { "@type": "Organization", name: person.company },
+  url: Astro.site?.toString(),
+  sameAs: [person.github, person.linkedin],
+};
+---
+
+<BaseLayout
+  title="Sobre — Bruno Vieira"
+  description="Senior Solutions Architect na MongoDB: modelagem de documentos, busca vetorial, agentes de IA e a trajetória completa."
+  ogImage="/og/sobre.png"
+  jsonLd={personJsonLd}
+>
+  <div class="page">
+    <div class="grid">
+      <div>
+        <h1 class="page-title">{person.name}</h1>
+        <div class="role-line">
+          <span class="role">{person.role}</span>
+          <span class="sep" aria-hidden="true"></span>
+          <span class="company">{person.company}</span>
+        </div>
+        <div class="intro">
+          <p class="p-lead">
+            Meu trabalho é entender o problema de dados de um cliente e desenhar com ele a arquitetura
+            que resolve — do modelo de documentos à estratégia de busca, memória de agentes e integração
+            com o resto da stack.
+          </p>
+          <p class="p-body">
+            Na prática, isso costuma virar código. Construo demos funcionais para mostrar o conceito
+            rodando, e é isso que está publicado aqui: repositórios que o time do cliente pode clonar,
+            ler e adaptar.
+          </p>
+          <p class="p-muted">
+            O blog é a parte escrita do mesmo trabalho — explicações curtas dos conceitos que aparecem
+            com mais frequência nessas conversas.
+          </p>
+        </div>
+
+        <div class="block">
+          <div class="block-label">Trajetória</div>
+          <ExperienceList entries={experience} bordered="top" />
+        </div>
+
+        <div class="block">
+          <div class="block-label">Áreas de foco</div>
+          <div class="focus-tags">
+            {focusAreas.map((f) => <span class="focus-tag">{f}</span>)}
+          </div>
+        </div>
+      </div>
+
+      <div class="side">
+        <div class="photo-placeholder" aria-hidden="true">
+          <span>foto de perfil<br />300 × 340</span>
+        </div>
+        <div class="contact-card">
+          <div class="block-label">Contato</div>
+          <a href={`mailto:${person.email}`} class="contact-link">
+            <IconEmail size={16} />
+            {person.email}
+          </a>
+          <a href={person.github} target="_blank" rel="noopener" class="contact-link">
+            <IconGithub size={16} />
+            {person.githubHandle}
+          </a>
+          <a href={person.linkedin} target="_blank" rel="noopener" class="contact-link">
+            <IconLinkedin size={16} />
+            LinkedIn
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 72px 32px 96px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 64px;
+    align-items: start;
+  }
+
+  .page-title {
+    margin-bottom: 10px;
+  }
+
+  .role-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+  .role {
+    font-size: 18px;
+    color: var(--text);
+  }
+  .sep {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--border-hover);
+  }
+  .company {
+    font-size: 18px;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .intro {
+    max-width: min(62ch, 100%);
+  }
+  .p-lead {
+    font-size: 18.5px;
+    line-height: 1.68;
+    color: var(--text-body);
+    text-wrap: pretty;
+    margin-bottom: 20px;
+  }
+  .p-body {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--text-body);
+    text-wrap: pretty;
+    margin-bottom: 20px;
+  }
+  .p-muted {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--text-muted);
+    text-wrap: pretty;
+    margin-bottom: 44px;
+  }
+
+  .block {
+    border-top: 1px solid var(--border);
+    padding-top: 26px;
+    margin-bottom: 44px;
+  }
+  .block:last-child {
+    margin-bottom: 0;
+  }
+
+  .block-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-meta);
+    margin-bottom: 16px;
+  }
+
+  .focus-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .focus-tag {
+    padding: 7px 13px;
+    border-radius: 8px;
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    font-size: 13.5px;
+    color: var(--text-body);
+  }
+
+  .side {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: sticky;
+    top: 104px;
+  }
+
+  .photo-placeholder {
+    height: 340px;
+    border-radius: 14px;
+    border: 1px solid var(--border-hover);
+    background-color: var(--image-placeholder-bg);
+    background-image: repeating-linear-gradient(
+      135deg,
+      var(--image-placeholder-line) 0 8px,
+      var(--image-placeholder-bg) 8px 16px
+    );
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 16px;
+  }
+  .photo-placeholder span {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--text-meta);
+  }
+
+  .contact-card {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14.5px;
+    color: var(--text-body);
+    transition: color 150ms ease-out;
+  }
+  .contact-link:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 1023px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    .side {
+      position: static;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .page {
+      padding: 48px 20px 64px;
+    }
+  }
+</style>

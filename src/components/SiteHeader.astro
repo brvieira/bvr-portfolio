@@ -1,0 +1,192 @@
+---
+import IconGithub from "./icons/IconGithub.astro";
+import IconLinkedin from "./icons/IconLinkedin.astro";
+import IconEmail from "./icons/IconEmail.astro";
+import { person } from "../data/site";
+
+const navItems = [
+  { href: "/", label: "Início" },
+  { href: "/projetos/", label: "Projetos" },
+  { href: "/blog/", label: "Blog" },
+  { href: "/sobre/", label: "Sobre" },
+];
+
+const path = Astro.url.pathname;
+function isActive(href: string) {
+  if (href === "/") return path === "/";
+  return path.startsWith(href);
+}
+---
+
+<header class="site-header">
+  <div class="bar">
+    <a href="/" class="brand">
+      <span class="mark">bv</span>
+      <span class="name">{person.name}</span>
+    </a>
+    <nav class="nav" aria-label="Navegação principal">
+      <div class="nav-links">
+        {
+          navItems.map((item) => (
+            <a
+              href={item.href}
+              class="nav-link"
+              aria-current={isActive(item.href) ? "page" : undefined}
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </div>
+      <div class="socials">
+        <a href={person.github} target="_blank" rel="noopener" title="GitHub" aria-label="GitHub" class="icon-btn">
+          <IconGithub size={17} />
+        </a>
+        <a href={person.linkedin} target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn" class="icon-btn">
+          <IconLinkedin size={17} />
+        </a>
+        <a href={`mailto:${person.email}`} title="E-mail" aria-label="E-mail" class="icon-btn">
+          <IconEmail size={17} />
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: color-mix(in srgb, var(--bg) 86%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .bar {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 32px;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand:hover {
+    color: var(--text);
+  }
+
+  .mark {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background: var(--accent);
+    color: #06120c;
+    display: grid;
+    place-items: center;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    flex-shrink: 0;
+  }
+
+  .name {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .nav-link {
+    padding: 7px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .nav-link:hover {
+    background: var(--nav-item-hover-bg);
+    color: var(--text);
+  }
+  .nav-link[aria-current="page"] {
+    color: var(--text);
+  }
+
+  .socials {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 10px;
+    padding-left: 14px;
+    border-left: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .icon-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    color: var(--text-muted);
+    transition: background-color 150ms ease-out, color 150ms ease-out;
+  }
+  .icon-btn:hover {
+    background: var(--nav-item-hover-bg);
+    color: var(--accent);
+  }
+
+  @media (max-width: 767px) {
+    .bar {
+      padding: 0 20px;
+    }
+    .name {
+      display: none;
+    }
+    .nav {
+      overflow: hidden;
+    }
+    .nav-links {
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .nav-links::-webkit-scrollbar {
+      display: none;
+    }
+    .nav-link {
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+    }
+    .socials {
+      flex-shrink: 0;
+    }
+    /* REQ-7.4: touch targets need >=44x44px below 768px. */
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+    }
+  }
+</style>

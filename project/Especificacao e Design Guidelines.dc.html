@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  doc-page:not(:defined) { visibility: hidden; }
+  a { color: #0F7A52; text-decoration: none; border-bottom: 1px solid #C9E9D8; }
+  a:hover { color: #0B5C3D; border-bottom-color: #23C486; }
+</style>
+<script src="./doc-page.js"></script>
+</helmet>
+<doc-page margin="0.8in">
+<div slot="header" style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; line-height: 20px; height: 30px; letter-spacing: 0.06em; text-transform: uppercase; color: #8A9990; padding-bottom: 9px; border-bottom: 1px solid #E1E8E3; display: flex; justify-content: space-between;">
+  <span>bruno-vieira.com</span>
+  <span>Especificação técnica &amp; design guidelines</span>
+</div>
+<div slot="footer" style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; color: #8A9990; padding-top: 8px; border-top: 1px solid #E1E8E3; text-align: right;">v1.0 · setembro de 2026</div>
+
+<div style="font-family: 'DM Sans', Helvetica, sans-serif; color: #16211C; font-size: 10.5pt; line-height: 1.62;">
+
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; letter-spacing: 0.12em; text-transform: uppercase; color: #0F7A52; margin: 26px 0 10px;">Documento de implementação</div>
+<h1 style="margin: 0 0 14px; font-size: 27pt; line-height: 1.1; letter-spacing: -0.025em; font-weight: 700;">Portfolio e blog de Bruno Vieira</h1>
+<p style="margin: 0 0 6px; font-size: 13pt; line-height: 1.5; color: #45564C;">Especificação funcional e diretrizes de design para implementação em GitHub Pages sob o domínio bruno-vieira.com.</p>
+<div style="display: flex; gap: 28px; margin: 22px 0 30px; padding: 16px 0; border-top: 1px solid #E1E8E3; border-bottom: 1px solid #E1E8E3; font-size: 9.5pt; color: #5A6B61;">
+  <div><strong style="color: #16211C; font-weight: 700;">Autor</strong><br />Bruno Vieira</div>
+  <div><strong style="color: #16211C; font-weight: 700;">Cargo</strong><br />Senior Solutions Architect, MongoDB</div>
+  <div><strong style="color: #16211C; font-weight: 700;">Status</strong><br />Pronto para implementação</div>
+  <div><strong style="color: #16211C; font-weight: 700;">Referência</strong><br />Portfolio Bruno Vieira.dc.html</div>
+</div>
+
+<h2 style="margin: 0 0 12px; font-size: 15pt; line-height: 1.25; letter-spacing: -0.015em; font-weight: 700;">1. Objetivo e escopo</h2>
+<p style="margin: 0 0 14px;">O site tem uma função primária: provar credibilidade técnica em segundos para um visitante que chegou por indicação, por um repositório ou por uma conversa com um cliente. Tudo o mais é secundário a isso.</p>
+<p style="margin: 0 0 14px;">Público principal: clientes e prospects técnicos (arquitetos e desenvolvedores) e a comunidade dev em geral. O conteúdo é em português. O site não é uma vitrine institucional da MongoDB — é o portfolio pessoal de um arquiteto que trabalha lá, e o material publicado precisa ser aberto e reutilizável pelo time do cliente.</p>
+<p style="margin: 0 0 18px;">Fora de escopo nesta versão: sistema de comentários, newsletter, busca no site, área autenticada, formulário de contato com backend, versão em inglês.</p>
+
+<h3 style="margin: 24px 0 10px; font-size: 11.5pt; font-weight: 700; letter-spacing: -0.008em;">1.1 Critérios de sucesso</h3>
+<ul style="margin: 0 0 18px; padding-left: 20px;">
+  <li style="margin-bottom: 6px;">Um visitante entende quem é Bruno, o que ele faz e onde trabalha sem rolar a página.</li>
+  <li style="margin-bottom: 6px;">Todo projeto listado leva a um repositório público que roda seguindo o README.</li>
+  <li style="margin-bottom: 6px;">Publicar um artigo novo exige criar um arquivo Markdown e fazer commit — nada além disso.</li>
+  <li style="margin-bottom: 6px;">Qualquer bloco de código do site pode ser copiado com um clique.</li>
+</ul>
+
+<h2 style="margin: 30px 0 12px; font-size: 15pt; line-height: 1.25; letter-spacing: -0.015em; font-weight: 700;">2. Arquitetura de informação</h2>
+<table style="width: 100%; border-collapse: collapse; margin: 0 0 12px; font-size: 9.5pt;">
+  <thead>
+    <tr>
+      <th style="text-align: left; padding: 8px 10px 8px 0; border-bottom: 1.5px solid #16211C; font-weight: 700; width: 24%;">Rota</th>
+      <th style="text-align: left; padding: 8px 10px 8px 0; border-bottom: 1.5px solid #16211C; font-weight: 700; width: 22%;">Página</th>
+      <th style="text-align: left; padding: 8px 0; border-bottom: 1.5px solid #16211C; font-weight: 700;">Função</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">/</td>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA;">Início</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Bio e cargo, trajetória resumida, dois projetos em destaque, snippet, três artigos recentes.</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">/projetos/</td>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA;">Projetos &amp; demos</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Lista completa em linhas largas, com resumo, tags de features e link para o repositório.</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">/blog/</td>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA;">Blog</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Cards com resumo em duas colunas, filtro por categoria.</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">/blog/&lt;slug&gt;/</td>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA;">Artigo</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Coluna de leitura com sumário lateral fixo, blocos de código e assinatura do autor.</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">/sobre/</td>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA;">Sobre</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Bio longa, trajetória completa, áreas de foco, contatos.</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">/blog/categoria/&lt;x&gt;/</td>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA;">Categoria</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Mesma grade do blog, filtrada. Categorias: conceitos, features, tutoriais, novidades.</td>
+    </tr>
+  </tbody>
+</table>
+<p style="margin: 0 0 18px; font-size: 9pt; color: #5A6B61;">Tabela 1 — Rotas do site. Todas as URLs terminam em barra e são estáticas.</p>
+<p style="margin: 0 0 18px;">Navegação global: Início, Projetos, Blog, Sobre, seguidos por três ícones (GitHub, LinkedIn, e-mail) separados por um divisor vertical. O header é fixo no topo com fundo translúcido e desfoque. Sem menu de segundo nível.</p>
+
+<h2 style="margin: 30px 0 12px; font-size: 15pt; line-height: 1.25; letter-spacing: -0.015em; font-weight: 700;">3. Stack e publicação</h2>
+<p style="margin: 0 0 14px;">Recomendação: <strong style="font-weight: 700;">Astro</strong> com a integração de Markdown/MDX, gerando um site totalmente estático. Justificativa: artigos como arquivos Markdown no repositório, zero JavaScript enviado ao cliente por padrão, e ilhas de interatividade apenas onde há necessidade (botão de copiar, filtro de categoria). Alternativas aceitáveis com o mesmo modelo de conteúdo: Eleventy (mais simples, sem componentes) ou Hugo (build mais rápido).</p>
+<ul style="margin: 0 0 14px; padding-left: 20px;">
+  <li style="margin-bottom: 6px;">Repositório: <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">bruno-vieira/bruno-vieira.com</code>, público.</li>
+  <li style="margin-bottom: 6px;">Build e deploy por GitHub Actions no push para <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">main</code>, publicando em GitHub Pages.</li>
+  <li style="margin-bottom: 6px;">Domínio: arquivo <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">public/CNAME</code> com <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">bruno-vieira.com</code>; DNS com quatro registros A apontando para os IPs do GitHub Pages e um CNAME em <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">www</code>. HTTPS obrigatório ativado nas configurações do repositório.</li>
+  <li style="margin-bottom: 6px;">Como o site fica na raiz do domínio, <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">base</code> permanece <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">/</code> — não há prefixo de subpasta a tratar.</li>
+  <li style="margin-bottom: 6px;">Sem analytics de terceiros nesta versão. Se necessário depois, usar uma solução sem cookies.</li>
+</ul>
+<div style="border-left: 2px solid #23C486; background: #F4FAF6; border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 0 0 20px; break-inside: avoid; orphans: 3; widows: 3;">
+  <div style="font-size: 10pt; line-height: 1.6;">O site é estático por decisão, não por limitação: nenhuma página depende de execução no servidor, o que mantém o custo em zero e o tempo de carregamento previsível para clientes atrás de VPN corporativa.</div>
+</div>
+
+<h2 style="margin: 30px 0 12px; font-size: 15pt; line-height: 1.25; letter-spacing: -0.015em; font-weight: 700;">4. Modelo de conteúdo</h2>
+<p style="margin: 0 0 14px;">Duas coleções de conteúdo, ambas em arquivos versionados no repositório. Os campos abaixo são obrigatórios salvo indicação contrária.</p>
+
+<h3 style="margin: 22px 0 10px; font-size: 11.5pt; font-weight: 700;">4.1 Projeto</h3>
+<div style="border: 1px solid #E1E8E3; border-radius: 10px; overflow: hidden; margin: 0 0 8px; break-inside: avoid;">
+  <div style="background: #10241C; color: #7FA894; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; padding: 7px 12px;">src/content/projetos/ecommerce-busca-semantica.md</div>
+  <pre style="margin: 0; padding: 14px 12px; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; line-height: 1.7; color: #16211C; background: #FAFCFB; overflow-x: auto;">---
+titulo: "E-commerce com busca semântica"
+tipo: "Demo · Varejo"
+ano: 2026
+resumo: "Catálogo onde a busca entende intenção em vez de palavra-chave."
+tags: ["Atlas Vector Search", "Atlas Search", "Flexible Schema"]
+repo: "https://github.com/bruno-vieira/ecommerce-semantic-search"
+imagem: "./capa.png"        # opcional
+destaque: true              # aparece na home
+ordem: 1
+---</pre>
+</div>
+<p style="margin: 0 0 18px; font-size: 9pt; color: #5A6B61;">Figura 1 — Front matter de um projeto. O corpo em Markdown é opcional e hoje não é renderizado; fica reservado para páginas de projeto futuras.</p>
+
+<h3 style="margin: 22px 0 10px; font-size: 11.5pt; font-weight: 700;">4.2 Artigo</h3>
+<div style="border: 1px solid #E1E8E3; border-radius: 10px; overflow: hidden; margin: 0 0 8px; break-inside: avoid;">
+  <div style="background: #10241C; color: #7FA894; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; padding: 7px 12px;">src/content/blog/o-que-e-vector-search.md</div>
+  <pre style="margin: 0; padding: 14px 12px; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; line-height: 1.7; color: #16211C; background: #FAFCFB; overflow-x: auto;">---
+titulo: "O que é Vector Search e como utilizar em seus projetos"
+categoria: "conceitos"      # conceitos | features | tutoriais | novidades
+data: 2026-08-12
+resumo: "Do embedding à pipeline de agregação, com um exemplo pronto."
+tempoLeitura: 7             # minutos, calculado no build se ausente
+rascunho: false
+---</pre>
+</div>
+<p style="margin: 0 0 18px; font-size: 9pt; color: #5A6B61;">Figura 2 — Front matter de um artigo. Artigos com <code style="font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">rascunho: true</code> não entram no build de produção.</p>
+<p style="margin: 0 0 18px;">Os títulos de nível 2 do corpo do artigo alimentam o sumário lateral automaticamente; nenhum índice é escrito à mão. O slug vem do nome do arquivo.</p>
+
+<h2 style="margin: 30px 0 12px; font-size: 15pt; line-height: 1.25; letter-spacing: -0.015em; font-weight: 700; break-before: page;">5. Design guidelines</h2>
+<p style="margin: 0 0 18px;">A identidade é escura por padrão, com verde como única cor de acento. Não há tema claro nesta versão. Nenhum ativo de marca da MongoDB (logotipo, símbolo da folha) é usado; a menção à empresa é textual, no cargo.</p>
+
+<h3 style="margin: 22px 0 10px; font-size: 11.5pt; font-weight: 700;">5.1 Cores</h3>
+<table style="width: 100%; border-collapse: collapse; margin: 0 0 12px; font-size: 9.5pt;">
+  <thead>
+    <tr>
+      <th style="text-align: left; padding: 8px 10px 8px 0; border-bottom: 1.5px solid #16211C; font-weight: 700; width: 12%;"></th>
+      <th style="text-align: left; padding: 8px 10px 8px 0; border-bottom: 1.5px solid #16211C; font-weight: 700; width: 26%;">Token</th>
+      <th style="text-align: left; padding: 8px 10px 8px 0; border-bottom: 1.5px solid #16211C; font-weight: 700; width: 18%;">Hex</th>
+      <th style="text-align: left; padding: 8px 0; border-bottom: 1.5px solid #16211C; font-weight: 700;">Uso</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;"><span style="display: inline-block; width: 26px; height: 14px; border-radius: 3px; background: #070E0B; border: 1px solid #D3DDD7;"></span></td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">--bg</td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">#070E0B</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">Fundo da página</td>
+    </tr>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;"><span style="display: inline-block; width: 26px; height: 14px; border-radius: 3px; background: #0B1410; border: 1px solid #D3DDD7;"></span></td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">--surface</td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">#0B1410</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">Cards, painéis</td>
+    </tr>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;"><span style="display: inline-block; width: 26px; height: 14px; border-radius: 3px; background: #050B08; border: 1px solid #D3DDD7;"></span></td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">--surface-code</td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">#050B08</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">Fundo de bloco de código</td>
+    </tr>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;"><span style="display: inline-block; width: 26px; height: 14px; border-radius: 3px; background: #1A2721; border: 1px solid #D3DDD7;"></span></td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">--border</td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">#1A2721</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">Bordas e divisores</td>
+    </tr>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;"><span style="display: inline-block; width: 26px; height: 14px; border-radius: 3px; background: #24503D; border: 1px solid #D3DDD7;"></span></td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">--border-hover</td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">#24503D</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">Borda de card sob o cursor</td>
+    </tr>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;"><span style="display: inline-block; width: 26px; height: 14px; border-radius: 3px; background: #23C486;"></span></td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">--accent</td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">#23C486</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">Acento, links, botão primário</td>
+    </tr>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;"><span style="display: inline-block; width: 26px; height: 14px; border-radius: 3px; background: #6FE0AC;"></span></td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">--accent-soft</td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">#6FE0AC</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">Texto de badge, código inline</td>
+    </tr>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;"><span style="display: inline-block; width: 26px; height: 14px; border-radius: 3px; background: #F2F7F4; border: 1px solid #D3DDD7;"></span></td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">--text</td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">#F2F7F4</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">Títulos</td>
+    </tr>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;"><span style="display: inline-block; width: 26px; height: 14px; border-radius: 3px; background: #DCE7E0; border: 1px solid #D3DDD7;"></span></td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">--text-body</td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">#DCE7E0</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">Corpo de artigo</td>
+    </tr>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;"><span style="display: inline-block; width: 26px; height: 14px; border-radius: 3px; background: #93A79C; border: 1px solid #D3DDD7;"></span></td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">--text-muted</td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">#93A79C</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">Resumos, navegação inativa</td>
+    </tr>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;"><span style="display: inline-block; width: 26px; height: 14px; border-radius: 3px; background: #6D8378; border: 1px solid #D3DDD7;"></span></td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">--text-meta</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">#6D8378</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">Rótulos, datas, legendas</td>
+    </tr>
+  </tbody>
+</table>
+<p style="margin: 0 0 14px; font-size: 9pt; color: #5A6B61;">Tabela 2 — Paleta completa. Onze tokens; nada fora desta lista entra no CSS.</p>
+<p style="margin: 0 0 18px;">Regras de uso: o verde nunca serve de fundo para blocos grandes — apenas para o botão primário, ícones ativos, badges e texto de link. Um único botão primário por tela. Sem gradientes decorativos; as duas exceções são o degradê sutil do bloco de abertura da home e o padrão diagonal dos espaços reservados de imagem.</p>
+
+<h3 style="margin: 22px 0 10px; font-size: 11.5pt; font-weight: 700;">5.2 Tipografia</h3>
+<p style="margin: 0 0 12px;">Duas famílias, ambas do Google Fonts, com subsets latin e latin-ext e <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">font-display: swap</code>: <strong style="font-weight: 700;">DM Sans</strong> para interface e texto, <strong style="font-weight: 700;">JetBrains Mono</strong> para código, rótulos e metadados.</p>
+<table style="width: 100%; border-collapse: collapse; margin: 0 0 12px; font-size: 9.5pt;">
+  <thead>
+    <tr>
+      <th style="text-align: left; padding: 8px 10px 8px 0; border-bottom: 1.5px solid #16211C; font-weight: 700; width: 30%;">Papel</th>
+      <th style="text-align: left; padding: 8px 10px 8px 0; border-bottom: 1.5px solid #16211C; font-weight: 700; width: 22%;">Tamanho / peso</th>
+      <th style="text-align: left; padding: 8px 0; border-bottom: 1.5px solid #16211C; font-weight: 700;">Entrelinha e tracking</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;">Título da home (h1)</td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;">52 px / 700</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">1.06 · −0.032em</td>
+    </tr>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;">Título de artigo (h1)</td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;">42 px / 700</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">1.10 · −0.030em</td>
+    </tr>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;">Título de página interna</td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;">40 px / 700</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">1.15 · −0.028em</td>
+    </tr>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;">Subtítulo no artigo (h2)</td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;">25 px / 700</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">1.25 · −0.020em</td>
+    </tr>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;">Título de card</td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;">21 px / 700</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">1.25 · −0.018em</td>
+    </tr>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;">Lide / intro</td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;">19–20 px / 400</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">1.55–1.65</td>
+    </tr>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;">Corpo de artigo</td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;">17 px / 400</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">1.72 · máx. 68ch</td>
+    </tr>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;">Texto de interface</td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;">14–15 px / 400–500</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">1.6</td>
+    </tr>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;">Rótulo de seção (mono)</td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;">12.5 px / 700</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">caixa alta · +0.12em</td>
+    </tr>
+    <tr>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;">Código</td>
+      <td style="padding: 7px 10px 7px 0; border-bottom: 1px solid #E8EDEA;">13 px / 400</td>
+      <td style="padding: 7px 0; border-bottom: 1px solid #E8EDEA;">1.75</td>
+    </tr>
+  </tbody>
+</table>
+<p style="margin: 0 0 18px; font-size: 9pt; color: #5A6B61;">Tabela 3 — Escala tipográfica em desktop. Em telas abaixo de 768 px, reduzir os três primeiros papéis em 25% e manter o resto.</p>
+
+<h3 style="margin: 22px 0 10px; font-size: 11.5pt; font-weight: 700;">5.3 Espaçamento, grade e formas</h3>
+<ul style="margin: 0 0 18px; padding-left: 20px;">
+  <li style="margin-bottom: 6px;">Escala de espaçamento em múltiplos de 4 px. Valores em uso: 6, 8, 10, 12, 14, 20, 24, 26, 32, 56, 64, 88.</li>
+  <li style="margin-bottom: 6px;">Largura máxima do conteúdo: 1080 px, com 32 px de recuo lateral. A coluna de leitura do artigo é limitada por <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">max-width: 68ch</code>, não por pixels.</li>
+  <li style="margin-bottom: 6px;">Raios: 14 px em cards e blocos de código, 10 px em botões, 8 px em tags e ícones, 999 px em badges e filtros.</li>
+  <li style="margin-bottom: 6px;">Sem sombras. A separação vem de bordas de 1 px e da diferença entre fundo e superfície.</li>
+  <li style="margin-bottom: 6px;">Grades: dois projetos por linha na home, três artigos por linha na home, dois artigos por linha no blog, uma linha larga por projeto na listagem. Sempre <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">display: grid</code> com <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">gap</code>, nunca margens entre irmãos.</li>
+  <li style="margin-bottom: 6px;">Cabeçalho de seção: rótulo mono em caixa alta à esquerda, link de "ver todos" à direita, sobre um divisor horizontal.</li>
+</ul>
+
+<h3 style="margin: 22px 0 10px; font-size: 11.5pt; font-weight: 700;">5.4 Ícones</h3>
+<p style="margin: 0 0 18px;">Conjunto único de ícones de traço, 1.7 px de espessura, extremidades arredondadas, desenhados em uma grade de 24 px e renderizados a 15–17 px. Usar <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">currentColor</code> para que herdem a cor do estado. Os ícones necessários são três: GitHub, LinkedIn e e-mail. Cada link com ícone recebe <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">aria-label</code> e <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">title</code>; no cabeçalho e no rodapé aparecem sozinhos, na abertura da home aparecem acompanhados de texto.</p>
+
+<h3 style="margin: 22px 0 10px; font-size: 11.5pt; font-weight: 700;">5.5 Estados e movimento</h3>
+<ul style="margin: 0 0 18px; padding-left: 20px;">
+  <li style="margin-bottom: 6px;">Card sob o cursor: apenas a borda muda para <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">--border-hover</code>. Sem elevação, escala ou deslocamento.</li>
+  <li style="margin-bottom: 6px;">Item de navegação sob o cursor: fundo <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">#101C16</code> e texto em <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">--text</code>. A página atual fica em <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">--text</code> permanentemente.</li>
+  <li style="margin-bottom: 6px;">Foco de teclado: contorno de 2 px em <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">--accent</code> com 2 px de afastamento, visível em todos os elementos interativos. Nunca remover o contorno padrão sem substituí-lo.</li>
+  <li style="margin-bottom: 6px;">Transições: 150 ms, <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">ease-out</code>, aplicadas somente a cor e borda.</li>
+  <li style="margin-bottom: 6px;">Nenhuma animação de entrada, revelação por rolagem ou parallax. Respeitar <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">prefers-reduced-motion</code>.</li>
+</ul>
+
+<h2 style="margin: 30px 0 12px; font-size: 15pt; line-height: 1.25; letter-spacing: -0.015em; font-weight: 700; break-before: page;">6. Componentes</h2>
+<table style="width: 100%; border-collapse: collapse; margin: 0 0 12px; font-size: 9.5pt;">
+  <thead>
+    <tr>
+      <th style="text-align: left; padding: 8px 10px 8px 0; border-bottom: 1.5px solid #16211C; font-weight: 700; width: 28%;">Componente</th>
+      <th style="text-align: left; padding: 8px 0; border-bottom: 1.5px solid #16211C; font-weight: 700;">Conteúdo e comportamento</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-weight: 500;">SiteHeader</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Monograma "bv" em quadrado verde, nome, quatro links, três ícones sociais. Fixo no topo, fundo translúcido com desfoque de 12 px.</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-weight: 500;">Hero</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Badge de cargo, h1, dois parágrafos de bio, dois botões, três links de contato com ícone. À direita: foto e cartão de cargo atual.</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-weight: 500;">ExperienceList</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Linhas de duas colunas: período em mono à esquerda, cargo e empresa à direita com uma descrição curta. Divisor entre linhas.</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-weight: 500;">ProjectCard</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Tipo e ano em mono, título, resumo, tags de features, link para o repositório com ícone. As tags são rótulos, não filtros.</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-weight: 500;">ProjectRow</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Versão larga do card para a listagem, com imagem à direita em 300×176 e botão de repositório.</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-weight: 500;">ArticleCard</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Categoria em mono, data e tempo de leitura, título, resumo, chamada "Ler artigo". O card inteiro é clicável.</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-weight: 500;">CodeBlock</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Barra superior com nome do arquivo e botão copiar; corpo com destaque de sintaxe. Ao copiar, o rótulo muda para "copiado" por 1,6 s.</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-weight: 500;">Callout</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Barra verde de 2 px à esquerda, fundo levemente esverdeado. Um por seção, no máximo.</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-weight: 500;">ArticleToc</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Coluna de 200 px fixa a 104 px do topo, gerada dos h2. A seção visível fica em verde.</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-weight: 500;">AuthorSignature</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Foto redonda de 52 px, nome, cargo e empresa. Ao final de todo artigo.</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-weight: 500;">SiteFooter</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Domínio e menção ao GitHub Pages à esquerda, três ícones sociais em botões quadrados à direita.</td>
+    </tr>
+  </tbody>
+</table>
+<p style="margin: 0 0 18px; font-size: 9pt; color: #5A6B61;">Tabela 4 — Inventário de componentes. Onze no total; qualquer novo padrão deve primeiro tentar ser resolvido com um destes.</p>
+
+<h3 style="margin: 22px 0 10px; font-size: 11.5pt; font-weight: 700;">6.1 Blocos de código</h3>
+<p style="margin: 0 0 12px;">O destaque de sintaxe é aplicado no build (Shiki, sem JavaScript no cliente), com tema escuro alinhado à paleta. O botão de copiar é o único JavaScript da página de artigo:</p>
+<div style="border: 1px solid #E1E8E3; border-radius: 10px; overflow: hidden; margin: 0 0 8px; break-inside: avoid;">
+  <div style="background: #10241C; color: #7FA894; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; padding: 7px 12px;">src/scripts/copy-code.ts</div>
+  <pre style="margin: 0; padding: 14px 12px; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt; line-height: 1.7; color: #16211C; background: #FAFCFB; overflow-x: auto;">document.querySelectorAll("[data-copy]").forEach((btn) =&gt; {
+  btn.addEventListener("click", async () =&gt; {
+    const code = btn.closest("[data-code-block]")?.querySelector("code");
+    if (!code) return;
+    await navigator.clipboard.writeText(code.textContent ?? "");
+    btn.textContent = "copiado";
+    setTimeout(() =&gt; (btn.textContent = "copiar"), 1600);
+  });
+});</pre>
+</div>
+<p style="margin: 0 0 18px; font-size: 9pt; color: #5A6B61;">Figura 3 — Comportamento do botão copiar. Se a API de área de transferência não estiver disponível, o botão é ocultado no carregamento.</p>
+
+<h2 style="margin: 30px 0 12px; font-size: 15pt; line-height: 1.25; letter-spacing: -0.015em; font-weight: 700;">7. Responsividade</h2>
+<p style="margin: 0 0 14px;">Três faixas, sem breakpoints intermediários:</p>
+<ul style="margin: 0 0 18px; padding-left: 20px;">
+  <li style="margin-bottom: 6px;"><strong style="font-weight: 700;">≥ 1024 px</strong> — layout completo conforme a referência.</li>
+  <li style="margin-bottom: 6px;"><strong style="font-weight: 700;">768–1023 px</strong> — grades de três colunas passam a duas; a coluna do sumário do artigo desaparece; a foto do hero vai para cima do texto.</li>
+  <li style="margin-bottom: 6px;"><strong style="font-weight: 700;">&lt; 768 px</strong> — coluna única. Os links de navegação viram uma linha rolável horizontalmente, com os ícones sociais permanecendo à direita. Alvos de toque com no mínimo 44 px. O cabeçalho segue fixo.</li>
+</ul>
+
+<h2 style="margin: 30px 0 12px; font-size: 15pt; line-height: 1.25; letter-spacing: -0.015em; font-weight: 700;">8. Acessibilidade</h2>
+<ul style="margin: 0 0 18px; padding-left: 20px;">
+  <li style="margin-bottom: 6px;">Contraste mínimo de 4,5:1 para texto corrente. Os tokens <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">--text-meta</code> e <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">--text-muted</code> são restritos a rótulos e metadados acima de 12 px; não usar para texto longo.</li>
+  <li style="margin-bottom: 6px;">Hierarquia de títulos sem saltos: um h1 por página.</li>
+  <li style="margin-bottom: 6px;">Cards clicáveis contêm um link real no título; o card inteiro amplia a área de clique, mas o alvo acessível é o link.</li>
+  <li style="margin-bottom: 6px;">Link "pular para o conteúdo" como primeiro elemento focável.</li>
+  <li style="margin-bottom: 6px;">Imagens de projeto com texto alternativo descritivo; padrões decorativos com <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">aria-hidden</code>.</li>
+  <li style="margin-bottom: 6px;">Idioma declarado como <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">lang="pt-BR"</code>; termos técnicos em inglês não recebem marcação especial.</li>
+</ul>
+
+<h2 style="margin: 30px 0 12px; font-size: 15pt; line-height: 1.25; letter-spacing: -0.015em; font-weight: 700;">9. Desempenho e SEO</h2>
+<ul style="margin: 0 0 18px; padding-left: 20px;">
+  <li style="margin-bottom: 6px;">Metas: LCP abaixo de 1,5 s em 4G, CLS abaixo de 0,05, menos de 40 KB de JavaScript no total do site.</li>
+  <li style="margin-bottom: 6px;">Fontes servidas do próprio domínio (arquivos woff2 no repositório), com <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">preload</code> apenas no peso 400 de cada família.</li>
+  <li style="margin-bottom: 6px;">Imagens em AVIF com fallback WebP, dimensões declaradas, <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">loading="lazy"</code> fora da primeira tela.</li>
+  <li style="margin-bottom: 6px;">Por página: title único, meta description a partir do resumo, canonical absoluto, Open Graph e Twitter card. Imagem OG gerada no build a partir do título.</li>
+  <li style="margin-bottom: 6px;">JSON-LD: <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">Person</code> na home e em Sobre, <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">BlogPosting</code> nos artigos.</li>
+  <li style="margin-bottom: 6px;"><code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">sitemap.xml</code>, <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">robots.txt</code> e feed RSS em <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">/rss.xml</code>, todos gerados no build.</li>
+  <li style="margin-bottom: 6px;">Página 404 própria em <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">404.html</code>, usando o mesmo cabeçalho e rodapé.</li>
+</ul>
+
+<h2 style="margin: 30px 0 12px; font-size: 15pt; line-height: 1.25; letter-spacing: -0.015em; font-weight: 700;">10. Plano de implementação</h2>
+<table style="width: 100%; border-collapse: collapse; margin: 0 0 12px; font-size: 9.5pt;">
+  <thead>
+    <tr>
+      <th style="text-align: left; padding: 8px 10px 8px 0; border-bottom: 1.5px solid #16211C; font-weight: 700; width: 14%;">Etapa</th>
+      <th style="text-align: left; padding: 8px 10px 8px 0; border-bottom: 1.5px solid #16211C; font-weight: 700; width: 34%;">Entrega</th>
+      <th style="text-align: left; padding: 8px 0; border-bottom: 1.5px solid #16211C; font-weight: 700;">Concluída quando</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">1</td>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA;">Projeto Astro, tokens em CSS, fontes locais, Actions e domínio</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">bruno-vieira.com serve uma página em branco estilizada por HTTPS</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">2</td>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA;">Cabeçalho, rodapé, ícones e as duas coleções de conteúdo</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Um projeto e um artigo em Markdown aparecem em listagens de teste</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">3</td>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA;">Home completa: hero, experiência, projetos, snippet, artigos</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Home idêntica à referência em desktop e mobile</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">4</td>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA;">Projetos, Blog, Sobre e páginas de categoria</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Navegação inteira funcional sem links mortos</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">5</td>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA;">Artigo: tipografia, código com destaque e cópia, sumário</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Os três primeiros artigos publicados e legíveis</td>
+    </tr>
+    <tr>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA; font-family: 'JetBrains Mono', monospace; font-size: 8.5pt;">6</td>
+      <td style="padding: 8px 10px 8px 0; border-bottom: 1px solid #E8EDEA;">SEO, RSS, sitemap, imagens OG, 404, auditoria de acessibilidade</td>
+      <td style="padding: 8px 0; border-bottom: 1px solid #E8EDEA;">Lighthouse acima de 95 nas quatro categorias</td>
+    </tr>
+  </tbody>
+</table>
+<p style="margin: 0 0 18px; font-size: 9pt; color: #5A6B61;">Tabela 5 — Etapas em ordem de dependência. Cada uma termina com um deploy em produção.</p>
+
+<h2 style="margin: 30px 0 12px; font-size: 15pt; line-height: 1.25; letter-spacing: -0.015em; font-weight: 700;">11. Ativos e decisões pendentes</h2>
+<p style="margin: 0 0 12px;">A implementação pode começar sem estes itens, usando os espaços reservados da referência, mas nenhum deles deve chegar à produção como placeholder:</p>
+<ul style="margin: 0 0 18px; padding-left: 20px;">
+  <li style="margin-bottom: 6px;">Foto de perfil em alta resolução (mínimo 800×960, enquadramento vertical).</li>
+  <li style="margin-bottom: 6px;">Captura ou GIF de cada demo, na proporção 300×176.</li>
+  <li style="margin-bottom: 6px;">URLs reais dos repositórios das duas demos.</li>
+  <li style="margin-bottom: 6px;">Usuário do GitHub, URL do LinkedIn e endereço de e-mail definitivo (a referência usa <code style="font-family: 'JetBrains Mono', monospace; font-size: 9pt; background: #F0F4F1; padding: 1px 5px; border-radius: 4px;">ola@bruno-vieira.com</code>).</li>
+  <li style="margin-bottom: 6px;">Cargos anteriores da trajetória: período, cargo, empresa e uma frase de escopo para cada.</li>
+  <li style="margin-bottom: 6px;">Confirmação da cidade exibida no cartão de cargo atual.</li>
+  <li style="margin-bottom: 6px;">Revisão de conformidade: verificar com a MongoDB se há restrição para publicar demos derivadas de engajamentos com clientes.</li>
+</ul>
+
+</div>
+</doc-page>
+</x-dc>
+</body>
+</html>

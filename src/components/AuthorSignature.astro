@@ -1,0 +1,47 @@
+---
+import { person } from "../data/site";
+---
+
+<div class="author-signature">
+  <div class="avatar" aria-hidden="true"></div>
+  <div>
+    <div class="name">{person.name}</div>
+    <div class="role">{person.role} na {person.company}</div>
+  </div>
+</div>
+
+<style>
+  .author-signature {
+    border-top: 1px solid var(--border);
+    margin-top: 44px;
+    padding-top: 26px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 1px solid var(--border-hover);
+    background-color: var(--image-placeholder-bg);
+    background-image: repeating-linear-gradient(
+      135deg,
+      var(--image-placeholder-line) 0 6px,
+      var(--image-placeholder-bg) 6px 12px
+    );
+    flex-shrink: 0;
+  }
+
+  .name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .role {
+    font-size: 13.5px;
+    color: var(--text-muted);
+  }
+</style>

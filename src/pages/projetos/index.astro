@@ -1,0 +1,55 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProjectRow from "../../components/ProjectRow.astro";
+import { getSortedProjects } from "../../utils/content";
+
+const projects = await getSortedProjects();
+---
+
+<BaseLayout
+  title="Projetos & demos — Bruno Vieira"
+  description="Demos técnicas construídas em engajamentos com clientes. Todas com repositório público — clone, rode e adapte."
+>
+  <div class="page">
+    <h1 class="page-title">Projetos &amp; demos</h1>
+    <p class="lead">
+      Demos técnicas construídas em engajamentos com clientes. Todas com repositório público — clone,
+      rode e adapte.
+    </p>
+    <div class="rows">
+      {projects.map((entry) => <ProjectRow entry={entry} />)}
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 72px 32px 96px;
+  }
+
+  .page-title {
+    margin-bottom: 16px;
+  }
+
+  .lead {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    max-width: min(62ch, 100%);
+    margin-bottom: 44px;
+  }
+
+  .rows {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  @media (max-width: 767px) {
+    .page {
+      padding: 48px 20px 64px;
+    }
+  }
+</style>

@@ -1,0 +1,31 @@
+:root {
+  /* Core palette — REQ-4.1: no color outside this table may appear in CSS */
+  --bg: #070e0b;
+  --surface: #0b1410;
+  --surface-code: #050b08;
+  --border: #1a2721;
+  --border-hover: #24503d;
+  --accent: #23c486;
+  --accent-soft: #6fe0ac;
+  --text: #f2f7f4;
+  --text-body: #dce7e0;
+  --text-muted: #93a79c;
+  --text-meta: #6d8378;
+
+  /* Derived auxiliary surfaces (SPEC §4.1) — allowed only for the uses named */
+  --nav-item-hover-bg: #101c16;
+  --tag-bg: #111e18;
+  --inline-code-bg: #111e18;
+  --copy-btn-bg: #0f2419;
+  --copy-btn-bg-hover: #143122;
+  --role-badge-bg: #0e211a;
+  --role-badge-border: #1f4034;
+  --callout-bg: #0c1b14;
+  --footer-bg: #0a120e;
+  --image-placeholder-bg: #0d1712;
+  --image-placeholder-line: #111e18;
+
+  /* Hero gradient exception (REQ-4.6) */
+  --hero-gradient-from: #0b1512;
+  --hero-gradient-to: #070e0b;
+}

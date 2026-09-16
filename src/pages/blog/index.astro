@@ -1,0 +1,93 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleCard from "../../components/ArticleCard.astro";
+import { blogCategories } from "../../data/site";
+import { getPublishedPosts, getReadingTime } from "../../utils/content";
+
+const posts = await getPublishedPosts();
+const postsWithReadingTime = await Promise.all(
+  posts.map(async (post) => ({ post, readingTime: await getReadingTime(post) })),
+);
+---
+
+<BaseLayout
+  title="Blog — Bruno Vieira"
+  description="Artigos curtos sobre conceitos, features e novidades do MongoDB — com exemplos práticos."
+>
+  <div class="page">
+    <h1 class="page-title">Blog</h1>
+    <p class="lead">Artigos curtos sobre conceitos, features e novidades do MongoDB — com exemplos práticos.</p>
+
+    <div class="filters">
+      <a href="/blog/" class="filter active">Tudo</a>
+      {blogCategories.map((c) => <a href={`/blog/categoria/${c.slug}/`} class="filter">{c.label}</a>)}
+    </div>
+
+    <div class="article-grid">
+      {
+        postsWithReadingTime.map(({ post, readingTime }) => (
+          <ArticleCard entry={post} readingTime={readingTime} variant="listing" />
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 72px 32px 96px;
+  }
+
+  .page-title {
+    margin-bottom: 16px;
+  }
+
+  .lead {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    max-width: min(62ch, 100%);
+    margin-bottom: 36px;
+  }
+
+  .filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+
+  .filter {
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border-hover);
+    font-size: 13.5px;
+    color: var(--text-body);
+    transition: border-color 150ms ease-out, color 150ms ease-out;
+  }
+  .filter:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+  .filter.active {
+    color: var(--text);
+    border-color: var(--accent);
+  }
+
+  .article-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  @media (max-width: 767px) {
+    .page {
+      padding: 48px 20px 64px;
+    }
+    .article-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

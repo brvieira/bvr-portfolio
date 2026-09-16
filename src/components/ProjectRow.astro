@@ -1,0 +1,158 @@
+---
+import IconGithub from "./icons/IconGithub.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  entry: CollectionEntry<"projetos">;
+}
+
+const { entry } = Astro.props;
+const { titulo, tipo, ano, resumo, tags, repo } = entry.data;
+---
+
+<div class="project-row">
+  <div class="content">
+    <div class="row-top">
+      <span class="kind">{tipo}</span>
+      <span class="sep" aria-hidden="true"></span>
+      <span class="year">{ano}</span>
+    </div>
+    <h2 class="card-title">
+      <a href={repo} target="_blank" rel="noopener" class="stretched-link">{titulo}</a>
+    </h2>
+    <p class="summary">{resumo}</p>
+    <div class="tags">
+      {tags.map((t) => <span class="tag">{t}</span>)}
+    </div>
+    <a href={repo} target="_blank" rel="noopener" class="repo-btn">
+      <IconGithub size={15} />
+      Repositório GitHub
+    </a>
+  </div>
+  <div class="shot" aria-hidden="true">
+    <span>screenshot do projeto<br />300 × 176</span>
+  </div>
+</div>
+
+<style>
+  .project-row {
+    position: relative;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--surface);
+    padding: 28px;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 32px;
+    align-items: start;
+    transition: border-color 150ms ease-out;
+  }
+  .project-row:hover {
+    border-color: var(--border-hover);
+  }
+
+  .row-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .kind {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-meta);
+  }
+
+  .sep {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--border-hover);
+  }
+
+  .year {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: var(--text-meta);
+  }
+
+  .card-title {
+    margin-bottom: 12px;
+  }
+
+  .stretched-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  .summary {
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--text-body);
+    max-width: min(58ch, 100%);
+    text-wrap: pretty;
+    margin-bottom: 18px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+
+  .tag {
+    padding: 5px 10px;
+    border-radius: 6px;
+    background: var(--tag-bg);
+    border: 1px solid var(--border);
+    font-size: 12.5px;
+    color: var(--text-body);
+  }
+
+  .repo-btn {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 10px 16px;
+    border-radius: 9px;
+    border: 1px solid var(--border-hover);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .shot {
+    height: 176px;
+    border-radius: 11px;
+    border: 1px solid var(--border-hover);
+    background-color: var(--image-placeholder-bg);
+    background-image: repeating-linear-gradient(
+      135deg,
+      var(--image-placeholder-line) 0 8px,
+      var(--image-placeholder-bg) 8px 16px
+    );
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 14px;
+  }
+  .shot span {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10.5px;
+    line-height: 1.6;
+    color: var(--text-meta);
+  }
+
+  @media (max-width: 1023px) {
+    .project-row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

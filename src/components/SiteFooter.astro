@@ -1,0 +1,74 @@
+---
+import IconGithub from "./icons/IconGithub.astro";
+import IconLinkedin from "./icons/IconLinkedin.astro";
+import IconEmail from "./icons/IconEmail.astro";
+import { person } from "../data/site";
+---
+
+<footer class="site-footer">
+  <div class="bar">
+    <div class="colophon">bruno-vieira.com · publicado no GitHub Pages</div>
+    <div class="socials">
+      <a href={person.github} target="_blank" rel="noopener" title="GitHub" aria-label="GitHub" class="icon-btn">
+        <IconGithub size={16} />
+      </a>
+      <a href={person.linkedin} target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn" class="icon-btn">
+        <IconLinkedin size={16} />
+      </a>
+      <a href={`mailto:${person.email}`} title="E-mail" aria-label="E-mail" class="icon-btn">
+        <IconEmail size={16} />
+      </a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    background: var(--footer-bg);
+  }
+
+  .bar {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .colophon {
+    font-size: 13.5px;
+    color: var(--text-meta);
+  }
+
+  .socials {
+    display: flex;
+    gap: 8px;
+  }
+
+  .icon-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    display: grid;
+    place-items: center;
+    color: var(--text-muted);
+    transition: border-color 150ms ease-out, color 150ms ease-out;
+  }
+  .icon-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* REQ-7.4: touch targets need >=44x44px below 768px. */
+  @media (max-width: 767px) {
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+    }
+  }
+</style>

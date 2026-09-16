@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { background: #070E0B; -webkit-font-smoothing: antialiased; }
+  a { color: #E6EFE9; text-decoration: none; }
+  a:hover { color: #23C486; }
+  ::selection { background: #23C486; color: #070E0B; }
+</style>
+</helmet>
+<div style="font-family: 'DM Sans', Helvetica, sans-serif; color: #E6EFE9; background: #070E0B; min-height: 100vh;">
+
+  <header style="position: sticky; top: 0; z-index: 20; background: rgba(7,14,11,0.86); backdrop-filter: blur(12px); border-bottom: 1px solid #1A2721;">
+    <div style="max-width: 1080px; margin: 0 auto; padding: 0 32px; height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+      <div onClick="{{ goHome }}" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+        <div style="width: 26px; height: 26px; border-radius: 7px; background: #23C486; color: #06120C; display: grid; place-items: center; font-size: 13px; font-weight: 700; letter-spacing: -0.02em;">bv</div>
+        <div style="font-size: 15px; font-weight: 500; letter-spacing: -0.01em;">Bruno Vieira</div>
+      </div>
+      <nav style="display: flex; align-items: center; gap: 4px;">
+        <div onClick="{{ navHome }}" style="padding: 7px 12px; border-radius: 8px; font-size: 14px; cursor: pointer; color: #93A79C;" style-hover="background: #101C16; color: #E6EFE9;">Início</div>
+        <div onClick="{{ navProjects }}" style="padding: 7px 12px; border-radius: 8px; font-size: 14px; cursor: pointer; color: #93A79C;" style-hover="background: #101C16; color: #E6EFE9;">Projetos</div>
+        <div onClick="{{ navBlog }}" style="padding: 7px 12px; border-radius: 8px; font-size: 14px; cursor: pointer; color: #93A79C;" style-hover="background: #101C16; color: #E6EFE9;">Blog</div>
+        <div onClick="{{ navAbout }}" style="padding: 7px 12px; border-radius: 8px; font-size: 14px; cursor: pointer; color: #93A79C;" style-hover="background: #101C16; color: #E6EFE9;">Sobre</div>
+        <div style="display: flex; align-items: center; gap: 6px; margin-left: 10px; padding-left: 14px; border-left: 1px solid #1A2721;">
+          <a href="https://github.com/" target="_blank" title="GitHub" style="width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; color: #93A79C;" style-hover="background: #101C16; color: #23C486;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="6.5" cy="5" r="2.5"></circle><circle cx="6.5" cy="19" r="2.5"></circle><circle cx="17.5" cy="8" r="2.5"></circle><path d="M6.5 7.5v9"></path><path d="M17.5 10.5c0 3-2.6 4-5 4.5"></path></svg>
+          </a>
+          <a href="https://linkedin.com/" target="_blank" title="LinkedIn" style="width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; color: #93A79C;" style-hover="background: #101C16; color: #23C486;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="3"></rect><path d="M7.5 10.5v6"></path><circle cx="7.5" cy="7.6" r="0.9" fill="currentColor" stroke="none"></circle><path d="M11.5 16.5v-3.4a2.1 2.1 0 0 1 4.2 0v3.4"></path><path d="M11.5 10.6v0.6"></path></svg>
+          </a>
+          <a href="mailto:ola@bruno-vieira.com" title="E-mail" style="width: 32px; height: 32px; border-radius: 8px; display: grid; place-items: center; color: #93A79C;" style-hover="background: #101C16; color: #23C486;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"></rect><path d="M3.5 7l8.5 6 8.5-6"></path></svg>
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <main>
+    <section style="border-bottom: 1px solid #1A2721; background: linear-gradient(180deg, #0B1512 0%, #070E0B 100%);">
+      <div style="max-width: 1080px; margin: 0 auto; padding: 88px 32px 64px;">
+        <div style="display: grid; grid-template-columns: 1fr 268px; gap: 60px; align-items: start;">
+          <div>
+            <div style="display: inline-flex; align-items: center; gap: 9px; padding: 6px 13px 6px 9px; border: 1px solid #1F4034; background: #0E211A; border-radius: 999px; font-size: 12.5px; color: #6FE0AC; margin-bottom: 28px; letter-spacing: 0.01em;">
+              <span style="width: 6px; height: 6px; border-radius: 50%; background: #23C486;"></span>
+              Senior Solutions Architect · MongoDB
+            </div>
+            <h1 style="margin: 0 0 24px; font-size: 52px; line-height: 1.06; letter-spacing: -0.032em; font-weight: 700; text-wrap: pretty; color: #F2F7F4;">Arquiteturas de dados que saem<br />do slide e rodam em produção.</h1>
+            <p style="margin: 0 0 18px; font-size: 19px; line-height: 1.65; color: #C3D2C9; max-width: 52ch; text-wrap: pretty;">Sou Bruno Vieira. Trabalho ao lado de clientes desenhando soluções sobre MongoDB Atlas — modelagem de documentos, busca vetorial, agentes com memória — e transformo cada uma delas em uma demo funcional.</p>
+            <p style="margin: 0 0 32px; font-size: 16.5px; line-height: 1.68; color: #93A79C; max-width: 54ch; text-wrap: pretty;">Aqui ficam essas demos, o código por trás delas e artigos curtos explicando os conceitos que mais aparecem nessas conversas.</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 34px;">
+              <div onClick="{{ navProjects }}" style="padding: 12px 20px; border-radius: 10px; background: #23C486; color: #06120C; font-size: 14.5px; font-weight: 700; cursor: pointer;" style-hover="background: #35D897;">Ver projetos e demos</div>
+              <div onClick="{{ navAbout }}" style="padding: 12px 20px; border-radius: 10px; border: 1px solid #24382E; color: #E6EFE9; font-size: 14.5px; font-weight: 500; cursor: pointer;" style-hover="border-color: #23C486;">Trajetória completa</div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <a href="https://github.com/" target="_blank" style="display: inline-flex; align-items: center; gap: 9px; padding: 9px 14px; border: 1px solid #1A2721; border-radius: 9px; font-size: 13.5px; color: #C3D2C9;" style-hover="border-color: #23C486; color: #E6EFE9;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="6.5" cy="5" r="2.5"></circle><circle cx="6.5" cy="19" r="2.5"></circle><circle cx="17.5" cy="8" r="2.5"></circle><path d="M6.5 7.5v9"></path><path d="M17.5 10.5c0 3-2.6 4-5 4.5"></path></svg>
+                github.com/bruno-vieira
+              </a>
+              <a href="https://linkedin.com/" target="_blank" style="display: inline-flex; align-items: center; gap: 9px; padding: 9px 14px; border: 1px solid #1A2721; border-radius: 9px; font-size: 13.5px; color: #C3D2C9;" style-hover="border-color: #23C486; color: #E6EFE9;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="3"></rect><path d="M7.5 10.5v6"></path><circle cx="7.5" cy="7.6" r="0.9" fill="currentColor" stroke="none"></circle><path d="M11.5 16.5v-3.4a2.1 2.1 0 0 1 4.2 0v3.4"></path></svg>
+                LinkedIn
+              </a>
+              <a href="mailto:ola@bruno-vieira.com" style="display: inline-flex; align-items: center; gap: 9px; padding: 9px 14px; border: 1px solid #1A2721; border-radius: 9px; font-size: 13.5px; color: #C3D2C9;" style-hover="border-color: #23C486; color: #E6EFE9;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"></rect><path d="M3.5 7l8.5 6 8.5-6"></path></svg>
+                ola@bruno-vieira.com
+              </a>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div style="width: 268px; height: 316px; border-radius: 14px; border: 1px solid #1F2E27; background-color: #0D1712; background-image: repeating-linear-gradient(135deg, #111E18 0 8px, #0D1712 8px 16px); display: grid; place-items: center; text-align: center; padding: 16px;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1.6; color: #6D8378; letter-spacing: 0.02em;">foto de perfil<br />268 × 316</div>
+            </div>
+            <div style="border: 1px solid #1A2721; border-radius: 12px; padding: 16px 18px; background: #0B1410;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #6D8378; margin-bottom: 10px;">Cargo atual</div>
+              <div style="font-size: 15px; font-weight: 700; color: #F2F7F4; line-height: 1.35;">Senior Solutions Architect</div>
+              <div style="font-size: 14px; color: #23C486; margin-top: 3px;">MongoDB</div>
+              <div style="font-size: 12.5px; color: #6D8378; margin-top: 8px; font-family: 'JetBrains Mono', monospace;">São Paulo, Brasil</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="max-width: 1080px; margin: 0 auto; padding: 56px 32px 8px;">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 26px;">
+        <h2 style="margin: 0; font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #6D8378;">Experiência</h2>
+        <div onClick="{{ navAbout }}" style="font-size: 13.5px; color: #23C486; cursor: pointer;">Sobre mim →</div>
+      </div>
+      <div style="display: flex; flex-direction: column;">
+        <sc-for list="{{ experience }}" as="e" hint-placeholder-count="4">
+          <div style="display: grid; grid-template-columns: 132px 1fr; gap: 28px; padding: 22px 0; border-top: 1px solid #14201A;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6D8378; padding-top: 4px; letter-spacing: 0.02em;">{{ e.period }}</div>
+            <div>
+              <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+                <div style="font-size: 17.5px; font-weight: 700; color: #F2F7F4; letter-spacing: -0.012em;">{{ e.role }}</div>
+                <div style="font-size: 14.5px; color: #23C486;">{{ e.company }}</div>
+              </div>
+              <p style="margin: 8px 0 0; font-size: 14.5px; line-height: 1.62; color: #93A79C; max-width: 66ch; text-wrap: pretty;">{{ e.detail }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="max-width: 1080px; margin: 0 auto; padding: 56px 32px 8px;">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; border-top: 1px solid #1A2721; padding-top: 24px; margin-bottom: 24px;">
+        <h2 style="margin: 0; font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #6D8378;">Projetos &amp; demos</h2>
+        <div onClick="{{ navProjects }}" style="font-size: 13.5px; color: #23C486; cursor: pointer;">Todos os projetos →</div>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <sc-for list="{{ projects }}" as="p" hint-placeholder-count="2">
+          <div style="border: 1px solid #1A2721; border-radius: 14px; background: #0B1410; padding: 24px; display: flex; flex-direction: column; gap: 14px;" style-hover="border-color: #24503D;">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #6D8378;">{{ p.kind }}</div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #4E6259;">{{ p.year }}</div>
+            </div>
+            <h3 style="margin: 0; font-size: 21px; line-height: 1.25; letter-spacing: -0.018em; font-weight: 700; color: #F2F7F4;">{{ p.title }}</h3>
+            <p style="margin: 0; font-size: 14.5px; line-height: 1.62; color: #93A79C; text-wrap: pretty;">{{ p.summary }}</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px;">
+              <sc-for list="{{ p.tags }}" as="t" hint-placeholder-count="3">
+                <div style="padding: 4px 9px; border-radius: 6px; background: #111E18; border: 1px solid #1A2721; font-size: 12px; color: #A9BCB1;">{{ t }}</div>
+              </sc-for>
+            </div>
+            <div style="display: flex; gap: 16px; padding-top: 12px; border-top: 1px solid #14201A; font-size: 13.5px;">
+              <a href="https://github.com/" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; color: #23C486;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="6.5" cy="5" r="2.5"></circle><circle cx="6.5" cy="19" r="2.5"></circle><circle cx="17.5" cy="8" r="2.5"></circle><path d="M6.5 7.5v9"></path><path d="M17.5 10.5c0 3-2.6 4-5 4.5"></path></svg>
+                Repositório GitHub
+              </a>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <sc-if value="{{ showCode }}" hint-placeholder-val="{{ true }}">
+    <section style="max-width: 1080px; margin: 0 auto; padding: 56px 32px 8px;">
+      <div style="border-top: 1px solid #1A2721; padding-top: 24px; margin-bottom: 20px; display: flex; align-items: baseline; justify-content: space-between;">
+        <h2 style="margin: 0; font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #6D8378;">Snippet do dia</h2>
+        <div style="font-size: 13px; color: #6D8378;">Busca vetorial com filtro em uma única pipeline</div>
+      </div>
+      <div style="border-radius: 14px; overflow: hidden; border: 1px solid #1F2E27; background: #050B08;">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 11px 16px; border-bottom: 1px solid #16241D;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6D8378;">vector_search.py</div>
+          <div onClick="{{ copySnippet }}" style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #23C486; padding: 4px 9px; border-radius: 6px; cursor: pointer; background: #0F2419;" style-hover="background: #143122;">{{ copyLabel }}</div>
+        </div>
+        <pre style="margin: 0; padding: 20px 18px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.75; color: #C8DBD1;">{{ snippetEl }}</pre>
+      </div>
+    </section>
+    </sc-if>
+
+    <section style="max-width: 1080px; margin: 0 auto; padding: 56px 32px 96px;">
+      <div style="display: flex; align-items: baseline; justify-content: space-between; border-top: 1px solid #1A2721; padding-top: 24px; margin-bottom: 24px;">
+        <h2 style="margin: 0; font-size: 12.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #6D8378;">Últimos artigos</h2>
+        <div onClick="{{ navBlog }}" style="font-size: 13.5px; color: #23C486; cursor: pointer;">Todos os artigos →</div>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+        <sc-for list="{{ posts }}" as="a" hint-placeholder-count="3">
+          <div onClick="{{ navArticle }}" style="border: 1px solid #1A2721; border-radius: 14px; background: #0B1410; padding: 22px; cursor: pointer; display: flex; flex-direction: column; gap: 12px;" style-hover="border-color: #24503D;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: #6D8378;">{{ a.category }}</div>
+            <h3 style="margin: 0; font-size: 17.5px; line-height: 1.32; letter-spacing: -0.012em; font-weight: 700; color: #F2F7F4; text-wrap: pretty;">{{ a.title }}</h3>
+            <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #93A79C;">{{ a.excerpt }}</p>
+            <div style="margin-top: auto; padding-top: 8px; font-size: 12.5px; color: #4E6259;">{{ a.meta }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isProjects }}" hint-placeholder-val="{{ false }}">
+  <main style="max-width: 1080px; margin: 0 auto; padding: 72px 32px 96px;">
+    <h1 style="margin: 0 0 16px; font-size: 40px; letter-spacing: -0.028em; font-weight: 700; color: #F2F7F4;">Projetos &amp; demos</h1>
+    <p style="margin: 0 0 44px; font-size: 17px; line-height: 1.6; color: #93A79C; max-width: 62ch;">Demos técnicas construídas em engajamentos com clientes. Todas com repositório público — clone, rode e adapte.</p>
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <sc-for list="{{ allProjects }}" as="p" hint-placeholder-count="3">
+        <div style="border: 1px solid #1A2721; border-radius: 14px; background: #0B1410; padding: 28px; display: grid; grid-template-columns: 1fr 300px; gap: 32px; align-items: start;" style-hover="border-color: #24503D;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #6D8378;">{{ p.kind }}</div>
+              <div style="width: 3px; height: 3px; border-radius: 50%; background: #2C3D35;"></div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #4E6259;">{{ p.year }}</div>
+            </div>
+            <h2 style="margin: 0 0 12px; font-size: 25px; line-height: 1.22; letter-spacing: -0.022em; font-weight: 700; color: #F2F7F4;">{{ p.title }}</h2>
+            <p style="margin: 0 0 18px; font-size: 15.5px; line-height: 1.65; color: #A9BCB1; max-width: 58ch; text-wrap: pretty;">{{ p.summary }}</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px;">
+              <sc-for list="{{ p.tags }}" as="t" hint-placeholder-count="3">
+                <div style="padding: 5px 10px; border-radius: 6px; background: #111E18; border: 1px solid #1A2721; font-size: 12.5px; color: #A9BCB1;">{{ t }}</div>
+              </sc-for>
+            </div>
+            <a href="https://github.com/" target="_blank" style="display: inline-flex; align-items: center; gap: 9px; padding: 10px 16px; border-radius: 9px; border: 1px solid #24382E; font-size: 14px; font-weight: 500; color: #E6EFE9;" style-hover="border-color: #23C486;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="6.5" cy="5" r="2.5"></circle><circle cx="6.5" cy="19" r="2.5"></circle><circle cx="17.5" cy="8" r="2.5"></circle><path d="M6.5 7.5v9"></path><path d="M17.5 10.5c0 3-2.6 4-5 4.5"></path></svg>
+              Repositório GitHub
+            </a>
+          </div>
+          <div style="height: 176px; border-radius: 11px; border: 1px solid #1F2E27; background-color: #0D1712; background-image: repeating-linear-gradient(135deg, #111E18 0 8px, #0D1712 8px 16px); display: grid; place-items: center; text-align: center; padding: 14px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; line-height: 1.6; color: #6D8378;">{{ p.shot }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isBlog }}" hint-placeholder-val="{{ false }}">
+  <main style="max-width: 1080px; margin: 0 auto; padding: 72px 32px 96px;">
+    <h1 style="margin: 0 0 16px; font-size: 40px; letter-spacing: -0.028em; font-weight: 700; color: #F2F7F4;">Blog</h1>
+    <p style="margin: 0 0 36px; font-size: 17px; line-height: 1.6; color: #93A79C; max-width: 62ch;">Artigos curtos sobre conceitos, features e novidades do MongoDB — com exemplos práticos.</p>
+    <div style="display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap;">
+      <sc-for list="{{ categories }}" as="c" hint-placeholder-count="4">
+        <div style="padding: 7px 14px; border-radius: 999px; border: 1px solid #24382E; font-size: 13.5px; color: #A9BCB1; cursor: pointer;" style-hover="border-color: #23C486; color: #E6EFE9;">{{ c }}</div>
+      </sc-for>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <sc-for list="{{ allPosts }}" as="a" hint-placeholder-count="4">
+        <div onClick="{{ navArticle }}" style="border: 1px solid #1A2721; border-radius: 14px; background: #0B1410; padding: 26px; cursor: pointer; display: flex; flex-direction: column; gap: 13px;" style-hover="border-color: #24503D;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: #23C486;">{{ a.category }}</div>
+            <div style="width: 3px; height: 3px; border-radius: 50%; background: #2C3D35;"></div>
+            <div style="font-size: 12.5px; color: #4E6259;">{{ a.meta }}</div>
+          </div>
+          <h2 style="margin: 0; font-size: 21px; line-height: 1.28; letter-spacing: -0.018em; font-weight: 700; color: #F2F7F4; text-wrap: pretty;">{{ a.title }}</h2>
+          <p style="margin: 0; font-size: 15px; line-height: 1.62; color: #93A79C; text-wrap: pretty;">{{ a.excerpt }}</p>
+          <div style="margin-top: auto; padding-top: 8px; font-size: 13.5px; color: #23C486;">Ler artigo →</div>
+        </div>
+      </sc-for>
+    </div>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isArticle }}" hint-placeholder-val="{{ false }}">
+  <main style="max-width: 1080px; margin: 0 auto; padding: 56px 32px 96px;">
+    <div onClick="{{ navBlog }}" style="font-size: 13.5px; color: #93A79C; cursor: pointer; margin-bottom: 36px;">← Blog</div>
+    <div style="display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 64px; align-items: start;">
+      <article style="max-width: 68ch;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: #23C486;">Conceitos</div>
+          <div style="width: 3px; height: 3px; border-radius: 50%; background: #2C3D35;"></div>
+          <div style="font-size: 13px; color: #6D8378;">12 de agosto de 2026 · 7 min de leitura</div>
+        </div>
+        <h1 style="margin: 0 0 22px; font-size: 42px; line-height: 1.1; letter-spacing: -0.03em; font-weight: 700; color: #F2F7F4; text-wrap: pretty;">O que é Vector Search e como utilizar em seus projetos</h1>
+        <p style="margin: 0 0 34px; font-size: 20px; line-height: 1.55; color: #A9BCB1; text-wrap: pretty;">Busca por significado, não por palavra-chave. Neste artigo: como os embeddings representam texto, como o índice vetorial do Atlas funciona e uma pipeline pronta para copiar.</p>
+        <div style="height: 1px; background: #1A2721; margin-bottom: 34px;"></div>
+        <p style="margin: 0 0 22px; font-size: 17px; line-height: 1.72; color: #DCE7E0; text-wrap: pretty;">Uma busca tradicional compara termos. Se o usuário digita "sapato para corrida" e o produto está cadastrado como "tênis de running", o match não acontece. A busca vetorial resolve isso comparando representações numéricas do significado do texto, em vez dos caracteres.</p>
+        <h2 style="margin: 40px 0 16px; font-size: 25px; line-height: 1.25; letter-spacing: -0.02em; font-weight: 700; color: #F2F7F4;">Embeddings em uma frase</h2>
+        <p style="margin: 0 0 22px; font-size: 17px; line-height: 1.72; color: #DCE7E0; text-wrap: pretty;">Um modelo de embedding transforma um texto em um vetor de centenas ou milhares de dimensões. Textos com sentido próximo ficam próximos nesse espaço, e a distância entre eles passa a ser algo que o banco consegue ordenar.</p>
+        <div style="border-left: 2px solid #23C486; background: #0C1B14; border-radius: 0 10px 10px 0; padding: 18px 22px; margin: 0 0 26px;">
+          <div style="font-size: 15.5px; line-height: 1.65; color: #C8DBD1;">No MongoDB Atlas os vetores ficam no mesmo documento que o resto dos dados. Isso elimina o banco vetorial separado e o trabalho de sincronizar duas fontes de verdade.</div>
+        </div>
+        <h2 style="margin: 40px 0 16px; font-size: 25px; line-height: 1.25; letter-spacing: -0.02em; font-weight: 700; color: #F2F7F4;">A pipeline</h2>
+        <p style="margin: 0 0 20px; font-size: 17px; line-height: 1.72; color: #DCE7E0;">O estágio <code style="font-family: 'JetBrains Mono', monospace; font-size: 14.5px; background: #111E18; padding: 2px 6px; border-radius: 5px; color: #6FE0AC;">$vectorSearch</code> aceita filtros pré-consulta, o que permite restringir por categoria ou estoque antes da busca semântica:</p>
+        <div style="border-radius: 12px; overflow: hidden; border: 1px solid #1F2E27; background: #050B08; margin: 0 0 26px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 15px; border-bottom: 1px solid #16241D;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #6D8378;">vector_search.py</div>
+            <div onClick="{{ copySnippet }}" style="font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #23C486; padding: 4px 9px; border-radius: 6px; cursor: pointer; background: #0F2419;" style-hover="background: #143122;">{{ copyLabel }}</div>
+          </div>
+          <pre style="margin: 0; padding: 18px 16px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; line-height: 1.75; color: #C8DBD1;">{{ snippetEl }}</pre>
+        </div>
+        <p style="margin: 0 0 22px; font-size: 17px; line-height: 1.72; color: #DCE7E0; text-wrap: pretty;">O campo <code style="font-family: 'JetBrains Mono', monospace; font-size: 14.5px; background: #111E18; padding: 2px 6px; border-radius: 5px; color: #6FE0AC;">numCandidates</code> controla quantos vizinhos o índice examina antes de devolver os <code style="font-family: 'JetBrains Mono', monospace; font-size: 14.5px; background: #111E18; padding: 2px 6px; border-radius: 5px; color: #6FE0AC;">limit</code> melhores. Valores mais altos aumentam a precisão e o custo da consulta — comece em dez vezes o limite e ajuste medindo.</p>
+        <div style="border-top: 1px solid #1A2721; margin-top: 44px; padding-top: 26px; display: flex; align-items: center; gap: 16px;">
+          <div style="width: 52px; height: 52px; border-radius: 50%; border: 1px solid #1F2E27; background-color: #0D1712; background-image: repeating-linear-gradient(135deg, #111E18 0 6px, #0D1712 6px 12px);"></div>
+          <div>
+            <div style="font-size: 15px; font-weight: 700; color: #F2F7F4;">Bruno Vieira</div>
+            <div style="font-size: 13.5px; color: #93A79C;">Senior Solutions Architect na MongoDB</div>
+          </div>
+        </div>
+      </article>
+      <aside style="position: sticky; top: 104px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #6D8378; margin-bottom: 14px;">Nesta página</div>
+        <div style="display: flex; flex-direction: column; gap: 10px; border-left: 1px solid #1A2721; padding-left: 16px;">
+          <div style="font-size: 13.5px; color: #23C486; cursor: pointer;">Embeddings em uma frase</div>
+          <div style="font-size: 13.5px; color: #93A79C; cursor: pointer;" style-hover="color: #23C486;">A pipeline</div>
+          <div style="font-size: 13.5px; color: #93A79C; cursor: pointer;" style-hover="color: #23C486;">Ajustando numCandidates</div>
+        </div>
+      </aside>
+    </div>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+  <main style="max-width: 1080px; margin: 0 auto; padding: 72px 32px 96px;">
+    <div style="display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 64px; align-items: start;">
+      <div>
+        <h1 style="margin: 0 0 10px; font-size: 40px; letter-spacing: -0.028em; font-weight: 700; color: #F2F7F4;">Bruno Vieira</h1>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 30px;">
+          <div style="font-size: 18px; color: #E6EFE9;">Senior Solutions Architect</div>
+          <div style="width: 3px; height: 3px; border-radius: 50%; background: #2C3D35;"></div>
+          <div style="font-size: 18px; color: #23C486; font-weight: 500;">MongoDB</div>
+        </div>
+        <div style="max-width: 62ch;">
+          <p style="margin: 0 0 20px; font-size: 18.5px; line-height: 1.68; color: #DCE7E0; text-wrap: pretty;">Meu trabalho é entender o problema de dados de um cliente e desenhar com ele a arquitetura que resolve — do modelo de documentos à estratégia de busca, memória de agentes e integração com o resto da stack.</p>
+          <p style="margin: 0 0 20px; font-size: 17px; line-height: 1.7; color: #A9BCB1; text-wrap: pretty;">Na prática, isso costuma virar código. Construo demos funcionais para mostrar o conceito rodando, e é isso que está publicado aqui: repositórios que o time do cliente pode clonar, ler e adaptar.</p>
+          <p style="margin: 0 0 44px; font-size: 17px; line-height: 1.7; color: #93A79C; text-wrap: pretty;">O blog é a parte escrita do mesmo trabalho — explicações curtas dos conceitos que aparecem com mais frequência nessas conversas.</p>
+        </div>
+        <div style="border-top: 1px solid #1A2721; padding-top: 26px; margin-bottom: 44px;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #6D8378; margin-bottom: 8px;">Trajetória</div>
+          <div style="display: flex; flex-direction: column;">
+            <sc-for list="{{ experience }}" as="e" hint-placeholder-count="4">
+              <div style="display: grid; grid-template-columns: 132px 1fr; gap: 28px; padding: 22px 0; border-bottom: 1px solid #14201A;">
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #6D8378; padding-top: 4px;">{{ e.period }}</div>
+                <div>
+                  <div style="display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;">
+                    <div style="font-size: 17.5px; font-weight: 700; color: #F2F7F4; letter-spacing: -0.012em;">{{ e.role }}</div>
+                    <div style="font-size: 14.5px; color: #23C486;">{{ e.company }}</div>
+                  </div>
+                  <p style="margin: 8px 0 0; font-size: 14.5px; line-height: 1.62; color: #93A79C; max-width: 62ch; text-wrap: pretty;">{{ e.detail }}</p>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="border-top: 1px solid #1A2721; padding-top: 26px;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #6D8378; margin-bottom: 16px;">Áreas de foco</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <sc-for list="{{ focus }}" as="f" hint-placeholder-count="6">
+              <div style="padding: 7px 13px; border-radius: 8px; background: #111E18; border: 1px solid #1A2721; font-size: 13.5px; color: #A9BCB1;">{{ f }}</div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 20px; position: sticky; top: 104px;">
+        <div style="height: 340px; border-radius: 14px; border: 1px solid #1F2E27; background-color: #0D1712; background-image: repeating-linear-gradient(135deg, #111E18 0 8px, #0D1712 8px 16px); display: grid; place-items: center; text-align: center; padding: 16px;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; line-height: 1.6; color: #6D8378;">foto de perfil<br />300 × 340</div>
+        </div>
+        <div style="border: 1px solid #1A2721; border-radius: 14px; padding: 20px; background: #0B1410; display: flex; flex-direction: column; gap: 12px;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #6D8378;">Contato</div>
+          <a href="mailto:ola@bruno-vieira.com" style="display: inline-flex; align-items: center; gap: 10px; font-size: 14.5px; color: #C3D2C9;" style-hover="color: #23C486;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"></rect><path d="M3.5 7l8.5 6 8.5-6"></path></svg>
+            ola@bruno-vieira.com
+          </a>
+          <a href="https://github.com/" target="_blank" style="display: inline-flex; align-items: center; gap: 10px; font-size: 14.5px; color: #C3D2C9;" style-hover="color: #23C486;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="6.5" cy="5" r="2.5"></circle><circle cx="6.5" cy="19" r="2.5"></circle><circle cx="17.5" cy="8" r="2.5"></circle><path d="M6.5 7.5v9"></path><path d="M17.5 10.5c0 3-2.6 4-5 4.5"></path></svg>
+            github.com/bruno-vieira
+          </a>
+          <a href="https://linkedin.com/" target="_blank" style="display: inline-flex; align-items: center; gap: 10px; font-size: 14.5px; color: #C3D2C9;" style-hover="color: #23C486;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="3"></rect><path d="M7.5 10.5v6"></path><circle cx="7.5" cy="7.6" r="0.9" fill="currentColor" stroke="none"></circle><path d="M11.5 16.5v-3.4a2.1 2.1 0 0 1 4.2 0v3.4"></path></svg>
+            LinkedIn
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+  </sc-if>
+
+  <footer style="border-top: 1px solid #1A2721; background: #0A120E;">
+    <div style="max-width: 1080px; margin: 0 auto; padding: 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;">
+      <div style="font-size: 13.5px; color: #6D8378;">bruno-vieira.com · publicado no GitHub Pages</div>
+      <div style="display: flex; gap: 8px;">
+        <a href="https://github.com/" target="_blank" title="GitHub" style="width: 34px; height: 34px; border-radius: 9px; border: 1px solid #1A2721; display: grid; place-items: center; color: #93A79C;" style-hover="border-color: #23C486; color: #23C486;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="6.5" cy="5" r="2.5"></circle><circle cx="6.5" cy="19" r="2.5"></circle><circle cx="17.5" cy="8" r="2.5"></circle><path d="M6.5 7.5v9"></path><path d="M17.5 10.5c0 3-2.6 4-5 4.5"></path></svg>
+        </a>
+        <a href="https://linkedin.com/" target="_blank" title="LinkedIn" style="width: 34px; height: 34px; border-radius: 9px; border: 1px solid #1A2721; display: grid; place-items: center; color: #93A79C;" style-hover="border-color: #23C486; color: #23C486;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="3"></rect><path d="M7.5 10.5v6"></path><circle cx="7.5" cy="7.6" r="0.9" fill="currentColor" stroke="none"></circle><path d="M11.5 16.5v-3.4a2.1 2.1 0 0 1 4.2 0v3.4"></path></svg>
+        </a>
+        <a href="mailto:ola@bruno-vieira.com" title="E-mail" style="width: 34px; height: 34px; border-radius: 9px; border: 1px solid #1A2721; display: grid; place-items: center; color: #93A79C;" style-hover="border-color: #23C486; color: #23C486;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"></rect><path d="M3.5 7l8.5 6 8.5-6"></path></svg>
+        </a>
+      </div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showCodeOnHome&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Home&quot;},&quot;showFullExperience&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Home&quot;}}">
+const SNIPPET = `pipeline = [
+    {
+        "$vectorSearch": {
+            "index": "produtos_vector_index",
+            "path": "descricao_embedding",
+            "queryVector": embed("sapato leve para corrida"),
+            "numCandidates": 150,
+            "limit": 10,
+            "filter": {"em_estoque": True}
+        }
+    },
+    {
+        "$project": {
+            "nome": 1,
+            "preco": 1,
+            "score": {"$meta": "vectorSearchScore"}
+        }
+    }
+]
+
+for doc in db.produtos.aggregate(pipeline):
+    print(doc["nome"], round(doc["score"], 3))`;
+
+const EXPERIENCE = [
+  {
+    period: "atual",
+    role: "Senior Solutions Architect",
+    company: "MongoDB",
+    detail: "Arquitetura de soluções para clientes enterprise: modelagem de documentos, estratégias de busca com Atlas Search e Vector Search, aplicações de IA com agentes e memória. Construo as demos técnicas que provam cada conceito."
+  },
+  {
+    period: "PLACEHOLDER",
+    role: "Cargo anterior",
+    company: "Empresa",
+    detail: "PLACEHOLDER — troque por um cargo real. Uma ou duas frases sobre o escopo e o resultado, no mesmo tom da entrada acima."
+  },
+  {
+    period: "PLACEHOLDER",
+    role: "Cargo anterior",
+    company: "Empresa",
+    detail: "PLACEHOLDER — terceira posição da trajetória. Remova a linha se preferir mostrar apenas as duas mais recentes."
+  }
+];
+
+const PROJECTS = [
+  {
+    kind: "Demo · Varejo",
+    year: "2026",
+    title: "E-commerce com busca semântica",
+    summary: "Catálogo onde a busca entende intenção em vez de palavra-chave. Combina Vector Search para similaridade semântica, Atlas Search para relevância textual e schema flexível para variações de produto sem migração.",
+    tags: ["Atlas Vector Search", "Atlas Search", "Flexible Schema", "Aggregation Pipeline"],
+    shot: "screenshot da busca\n300 × 176"
+  },
+  {
+    kind: "Demo · Seguros",
+    year: "2026",
+    title: "Agente de seguradora com memória",
+    summary: "Assistente que atende sinistros mantendo contexto da conversa e histórico do cliente. Memória de curto prazo na sessão, longo prazo indexada por vetores, e ferramentas expostas ao modelo via MCP.",
+    tags: ["Short/Long-term Memory", "Atlas Vector Search", "MCP Server", "Time Series"],
+    shot: "diagrama do agente\n300 × 176"
+  },
+  {
+    kind: "Espaço reservado",
+    year: "—",
+    title: "Terceiro projeto",
+    summary: "PLACEHOLDER — este card mostra como um próximo projeto entra na grade. Substitua título, resumo e tags pelo conteúdo real.",
+    tags: ["tag", "tag", "tag"],
+    shot: "imagem do projeto\n300 × 176"
+  }
+];
+
+const POSTS = [
+  {
+    category: "Features",
+    title: "Auto-embeddings com Voyage AI",
+    excerpt: "Gerar e atualizar embeddings sem pipeline externa: o que muda no fluxo de ingestão quando o modelo vive junto do banco.",
+    meta: "26 de agosto de 2026 · 5 min"
+  },
+  {
+    category: "Conceitos",
+    title: "O que é Vector Search e como utilizar em seus projetos",
+    excerpt: "Do embedding à pipeline de agregação, com um exemplo pronto para copiar e os parâmetros que realmente afetam o resultado.",
+    meta: "12 de agosto de 2026 · 7 min"
+  },
+  {
+    category: "Tutoriais",
+    title: "Experiência omni-channel com MongoDB",
+    excerpt: "Unificar carrinho, histórico e preferências entre app, web e loja física usando um único modelo de documentos.",
+    meta: "29 de julho de 2026 · 9 min"
+  },
+  {
+    category: "Espaço reservado",
+    title: "Próximo artigo",
+    excerpt: "PLACEHOLDER — posição do próximo post na grade. Troque por título, categoria e resumo reais.",
+    meta: "data · tempo de leitura"
+  }
+];
+
+class Component extends DCLogic {
+  state = { page: "home", copied: false };
+
+  go(page) {
+    return () => {
+      this.setState({ page });
+      window.scrollTo(0, 0);
+    };
+  }
+
+  renderVals() {
+    const { page, copied } = this.state;
+    return {
+      isHome: page === "home",
+      isProjects: page === "projects",
+      isBlog: page === "blog",
+      isArticle: page === "article",
+      isAbout: page === "about",
+      goHome: this.go("home"),
+      navHome: this.go("home"),
+      navProjects: this.go("projects"),
+      navBlog: this.go("blog"),
+      navArticle: this.go("article"),
+      navAbout: this.go("about"),
+      showCode: this.props.showCodeOnHome ?? true,
+      experience: (this.props.showFullExperience ?? true) ? EXPERIENCE : EXPERIENCE.slice(0, 1),
+      projects: PROJECTS.slice(0, 2),
+      allProjects: PROJECTS,
+      posts: POSTS.slice(0, 3),
+      allPosts: POSTS,
+      categories: ["Tudo", "Conceitos", "Features", "Tutoriais", "Novidades"],
+      focus: ["Modelagem de documentos", "Atlas Vector Search", "Atlas Search", "AI agents & RAG", "MCP", "Migração de relacional", "Performance & índices"],
+      snippetEl: SNIPPET,
+      copyLabel: copied ? "copiado" : "copiar",
+      copySnippet: () => {
+        try { navigator.clipboard.writeText(SNIPPET); } catch (e) {}
+        this.setState({ copied: true });
+        setTimeout(() => this.setState({ copied: false }), 1600);
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

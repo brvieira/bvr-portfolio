@@ -1,0 +1,73 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+const items = headings.filter((h) => h.depth === 2);
+---
+
+{
+  items.length > 0 && (
+    <aside class="toc" aria-label="Nesta página">
+      <div class="toc-label">Nesta página</div>
+      <nav class="toc-links" data-article-toc>
+        {items.map((h) => (
+          <a href={`#${h.slug}`} data-toc-target={h.slug}>
+            {h.text}
+          </a>
+        ))}
+      </nav>
+    </aside>
+  )
+}
+
+<style>
+  .toc {
+    position: sticky;
+    top: 104px;
+  }
+
+  .toc-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-meta);
+    margin-bottom: 14px;
+  }
+
+  .toc-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-left: 1px solid var(--border);
+    padding-left: 16px;
+  }
+
+  .toc-links a {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    transition: color 150ms ease-out;
+  }
+  .toc-links a:hover {
+    color: var(--accent);
+  }
+  .toc-links a.active {
+    color: var(--accent);
+  }
+
+  @media (max-width: 1023px) {
+    .toc {
+      display: none;
+    }
+  }
+</style>
+
+<script src="../scripts/article-toc.ts"></script>
