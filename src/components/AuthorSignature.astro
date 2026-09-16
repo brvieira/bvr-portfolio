@@ -1,9 +1,11 @@
 ---
+import { Image } from "astro:assets";
+import profilePhoto from "../assets/profile.jpg";
 import { person } from "../data/site";
 ---
 
 <div class="author-signature">
-  <div class="avatar" aria-hidden="true"></div>
+  <Image src={profilePhoto} alt="" width={104} height={104} class="avatar" />
   <div>
     <div class="name">{person.name}</div>
     <div class="role">{person.role} na {person.company}</div>
@@ -25,12 +27,7 @@ import { person } from "../data/site";
     height: 52px;
     border-radius: 50%;
     border: 1px solid var(--border-hover);
-    background-color: var(--image-placeholder-bg);
-    background-image: repeating-linear-gradient(
-      135deg,
-      var(--image-placeholder-line) 0 6px,
-      var(--image-placeholder-bg) 6px 12px
-    );
+    object-fit: cover;
     flex-shrink: 0;
   }
 

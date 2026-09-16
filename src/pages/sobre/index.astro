@@ -1,9 +1,11 @@
 ---
+import { Image } from "astro:assets";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ExperienceList from "../../components/ExperienceList.astro";
 import IconGithub from "../../components/icons/IconGithub.astro";
 import IconLinkedin from "../../components/icons/IconLinkedin.astro";
 import IconEmail from "../../components/icons/IconEmail.astro";
+import profilePhoto from "../../assets/profile.jpg";
 import { experience, focusAreas, person } from "../../data/site";
 
 const personJsonLd = {
@@ -63,9 +65,14 @@ const personJsonLd = {
       </div>
 
       <div class="side">
-        <div class="photo-placeholder" aria-hidden="true">
-          <span>foto de perfil<br />300 × 340</span>
-        </div>
+        <Image
+          src={profilePhoto}
+          alt={person.name}
+          width={600}
+          height={680}
+          class="profile-photo"
+          loading="eager"
+        />
         <div class="contact-card">
           <div class="block-label">Contato</div>
           <a href={`mailto:${person.email}`} class="contact-link">
@@ -191,26 +198,13 @@ const personJsonLd = {
     top: 104px;
   }
 
-  .photo-placeholder {
+  .profile-photo {
+    width: 100%;
     height: 340px;
     border-radius: 14px;
     border: 1px solid var(--border-hover);
-    background-color: var(--image-placeholder-bg);
-    background-image: repeating-linear-gradient(
-      135deg,
-      var(--image-placeholder-line) 0 8px,
-      var(--image-placeholder-bg) 8px 16px
-    );
-    display: grid;
-    place-items: center;
-    text-align: center;
-    padding: 16px;
-  }
-  .photo-placeholder span {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 11px;
-    line-height: 1.6;
-    color: var(--text-meta);
+    object-fit: cover;
+    display: block;
   }
 
   .contact-card {

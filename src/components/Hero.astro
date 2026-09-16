@@ -1,7 +1,9 @@
 ---
+import { Image } from "astro:assets";
 import IconGithub from "./icons/IconGithub.astro";
 import IconLinkedin from "./icons/IconLinkedin.astro";
 import IconEmail from "./icons/IconEmail.astro";
+import profilePhoto from "../assets/profile.jpg";
 import { hero, person } from "../data/site";
 
 const titleLines = hero.title.split("\n");
@@ -44,9 +46,14 @@ const titleLines = hero.title.split("\n");
       </div>
     </div>
     <div class="hero-side">
-      <div class="photo-placeholder" aria-hidden="true">
-        <span>foto de perfil<br />268 × 316</span>
-      </div>
+      <Image
+        src={profilePhoto}
+        alt={person.name}
+        width={536}
+        height={632}
+        class="hero-photo"
+        loading="eager"
+      />
       <div class="role-card">
         <div class="role-label">Cargo atual</div>
         <div class="role-title">{person.role}</div>
@@ -177,28 +184,13 @@ const titleLines = hero.title.split("\n");
     gap: 14px;
   }
 
-  .photo-placeholder {
+  .hero-photo {
     width: 268px;
     height: 316px;
     border-radius: 14px;
     border: 1px solid var(--border-hover);
-    background-color: var(--image-placeholder-bg);
-    background-image: repeating-linear-gradient(
-      135deg,
-      var(--image-placeholder-line) 0 8px,
-      var(--image-placeholder-bg) 8px 16px
-    );
-    display: grid;
-    place-items: center;
-    text-align: center;
-    padding: 16px;
-  }
-  .photo-placeholder span {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 11px;
-    line-height: 1.6;
-    color: var(--text-meta);
-    letter-spacing: 0.02em;
+    object-fit: cover;
+    display: block;
   }
 
   .role-card {
@@ -255,7 +247,7 @@ const titleLines = hero.title.split("\n");
     .hero-side {
       flex-direction: column;
     }
-    .photo-placeholder {
+    .hero-photo {
       width: 100%;
       max-width: 268px;
     }

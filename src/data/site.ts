@@ -10,17 +10,17 @@ export const person = {
   role: "Senior Solutions Architect",
   company: "MongoDB",
   city: "São Paulo, Brasil",
-  email: "ola@bruno-vieira.com",
-  github: "https://github.com/",
-  githubHandle: "github.com/bruno-vieira",
-  linkedin: "https://linkedin.com/",
+  email: "bruno.silvavieira@gmail.com",
+  github: "https://github.com/brvieira",
+  githubHandle: "github.com/brvieira",
+  linkedin: "https://linkedin.com/in/brunovrosa",
 };
 
 export const hero = {
   badge: "Senior Solutions Architect · MongoDB",
   title: "Arquiteturas de dados que saem\ndo slide e rodam em produção.",
   leadParagraph:
-    "Sou Bruno Vieira. Trabalho ao lado de clientes desenhando soluções sobre MongoDB Atlas — modelagem de documentos, busca vetorial, agentes com memória — e transformo cada uma delas em uma demo funcional.",
+    "Sou Bruno Vieira. Trabalho ao lado de clientes desenhando soluções sobre MongoDB — modelagem de documentos, busca vetorial, agentes com memória — e transformo cada uma delas em uma demo funcional.",
   supportParagraph:
     "Aqui ficam essas demos, o código por trás delas e artigos curtos explicando os conceitos que mais aparecem nessas conversas.",
 };
